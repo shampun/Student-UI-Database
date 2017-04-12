@@ -73,21 +73,21 @@ if(!accepted)
         }
     }
 }
-if(!accepted)
-{
-    for(int i=0;i<StudentU.size();i++)
-        {
-        if(username==StudentU[i] && password==StudentP[i])
-        {
-        ui->usernameLE->clear();
-        ui->passwordLE->clear();
-        accepted=true;
-        user=finduser(StudentP[i]);
-        ui->stackedWidget->setCurrentIndex(1);
-        break;
-        }
-    }
-}
+//if(!accepted)
+//{
+//    for(int i=0;i<StudentU.size();i++)
+//        {
+//        if(username==StudentU[i] && password==StudentP[i])
+//        {
+//        ui->usernameLE->clear();
+//        ui->passwordLE->clear();
+//        accepted=true;
+//        user=finduser(StudentP[i]);
+//        ui->stackedWidget->setCurrentIndex(1);
+//        break;
+//        }
+//    }
+//}
    if(!accepted)
     {
         //Clear username and password

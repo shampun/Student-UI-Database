@@ -32,11 +32,19 @@ void Add_Grades::on_addgrades_button_clicked()
     score=ui->score_edit->text();
     courseid=ui->courseid_edit->text();
     studid=ui->studentid_edit->text();
+QSqlQuery updategrades;
+    updategrades.prepare("update grades set TestNum='"+testnum+"',score='"+score+"',Courses_has_Students_Courses_idCourses='"+courseid+"',Courses_has_Students_Students_idStudents='"+studid+"' where TestNum='"+testnum+"',Courses_has_Students_Courses_idCourses='"+courseid+"', where Courses_has_Students_Students_idStudents='"+studid+"'"
+                         ); updategrades.exec();
 
-    QSqlQuery addgrades;
-    addgrades.prepare ("insert into grades (TestNum,Score,Courses_has_Students_Courses_idCourses,Courses_has_Students_Students_idStudents ) values ('"+testnum+"'), ('"+score+"'),('"+courseid+"'),('"+studid+"')");
+//    QSqlQuery addgrades;
+//    addgrades.prepare ("insert into mydb.grades (TestNum,Score,Courses_has_Students_Courses_idCourses,Courses_has_Students_Students_idStudents ) values (?, ?,?,?)");
+//    addgrades.bindValue(0, testnum);
+//    addgrades.bindValue(1, score);
+//    addgrades.bindValue(2, courseid);
+//    addgrades.bindValue(3, studid);
+//    addgrades.exec();
+//    close();
 
-    close();
 }
 
-//updategrades.prepare("update grades set TestNum='"+testnum+"',score='"+score"',Courses_has_Students_Courses_idCourses='"+courseid+",Courses_has_Students_Students_idStudents='"+studid+"' whereTestNum='"+testnum+"' );
+
