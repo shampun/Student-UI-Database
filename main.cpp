@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     w.show();
     QString dbname= "mydb";
     QSqlDatabase db= QSqlDatabase::addDatabase("QODBC");
-    db.setDatabaseName("DRIVER={MySQL ODBC 5.3 Unicode Driver};SERVER=LOCALHOST;Database=mydb;Uid=root;Password=sandman03;");
+    db.setDatabaseName("DRIVER={MySQL ODBC 5.3 Unicode Driver};SERVER=LOCALHOST;Database=localhost;Uid=root;Password=root;");
 
     if(db.open())
     {

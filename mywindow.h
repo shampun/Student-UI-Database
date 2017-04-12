@@ -33,6 +33,10 @@ private slots:
 
     void on_studen_button_2_clicked();
 
+    void on_pushButton_15_clicked();
+
+
+
 private:
     Ui::MyWindow *ui;
 };

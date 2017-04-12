@@ -25,19 +25,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mywindow.cpp
+        mywindow.cpp \
+    add_grades.cpp
 
-HEADERS  += mywindow.h
+HEADERS  += mywindow.h \
+    add_grades.h
 
-FORMS    += mywindow.ui
+FORMS    += mywindow.ui \
+    add_grades.ui
 
 
-unix|win32: LIBS += -L$$PWD/../lib/ -llibmysql
 
-INCLUDEPATH += $$PWD/../
-DEPENDPATH += $$PWD/../
-
-unix|win32: LIBS += -L$$PWD/../lib/ -lmysqlclient
-
-INCLUDEPATH += $$PWD/../
-DEPENDPATH += $$PWD/../

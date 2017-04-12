@@ -5,6 +5,7 @@
 #include <Qtsql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
 #include <QSqlDriver>
+#include "add_grades.h"
 
 QList<QString>AdminP;
 QList<QString>AdminU;
@@ -13,6 +14,7 @@ QList<QString>StudentU;
 QList<QString>TeacherP;
 QList<QString>TeacherU;
 QString user="";
+
 
 
 //QList AdminStorage= new QList<QString,QString>();
@@ -246,3 +248,14 @@ void MyWindow::on_studen_button_2_clicked()
          }
      }
 }
+
+//Teacher Page ADD BUTTON
+void MyWindow::on_pushButton_15_clicked()
+{
+    Add_Grades agrades;
+    agrades.setModal(true);
+    agrades.exec();
+}
+
+
+
