@@ -5,13 +5,18 @@ The goal of this project is to create a program that acts with three users: Admi
 ADMIN ACTIONS
 ------------------------------------------------------------------------------------------------------------------------------------------
 +ADDGrade(int)
---
+-
 +AddStudents(String)
+-
 +AddTeacher(String)
+-
 +DelStudent(String)
+-
 +DelTeacher(String)
+-
 
 TEACHER ACTIONS
+------------------------------------------------------------------------------------------------------------------------------------------
 +AddGrade
 +AddStudents
 +AddTest
