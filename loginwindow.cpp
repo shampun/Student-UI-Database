@@ -18,7 +18,7 @@ loginWindow::loginWindow(QWidget *parent) :
 
     //QString dsn =  QString ("DRIVER = {MySql ODBC 5.3 Unicode Driver}; SERVER = LOCALHOST;DATABASE = mydb; Uid = root; Password = root"); //.arg(dbname);
 
-    db.setDatabaseName ("DRIVER={MySQL ODBC 5.3 Unicode Driver};SERVER=LOCALHOST;DATABASE=mydb;Uid=root;Password=root;");
+    db.setDatabaseName ("DRIVER={MySQL ODBC 5.3 Unicode Driver};SERVER=mysql;DATABASE=mydb;Uid=root;Password=root;");
 
     if (!db.isOpen())
         ui->statusLabel->setText("Failed to connect Db");
@@ -61,7 +61,7 @@ void loginWindow::on_loginbutton_clicked()
     {
         ui->statusLabel->setText("DB not connect!");
     }*/
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidget->setCurrentIndex(2);
     ui->usernameline->setText("");
     ui->pwdline->setText("");
 }
@@ -73,30 +73,159 @@ void loginWindow::on_logoutbutton_clicked()
 
 void loginWindow::on_Gradesbutton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(2);
+    ui->stackedWidget->setCurrentIndex(3);
 }
 
 void loginWindow::on_GPAbutton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(3);
+    ui->stackedWidget->setCurrentIndex(4);
 }
 
 void loginWindow::on_infobutton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(4);
+    ui->stackedWidget->setCurrentIndex(5);
 }
 
 void loginWindow::on_backbutton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidget->setCurrentIndex(2);
 }
 
 void loginWindow::on_backbutton_2_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidget->setCurrentIndex(2);
 }
 
 void loginWindow::on_backbutton_3_clicked()
 {
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void loginWindow::on_StudentButton_clicked()
+{
     ui->stackedWidget->setCurrentIndex(1);
+}
+
+void loginWindow::on_InstructorButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(10);
+}
+
+void loginWindow::on_InstrLoginButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(11);
+    ui->InstrUNLine->clear();
+    ui->InstrPWline->clear();
+}
+
+void loginWindow::on_logoutbutton_2_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+void loginWindow::on_StudEditInfoButn_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(6);
+}
+
+void loginWindow::on_StudSaveButn_clicked()
+{
+    QString usr, pwd;
+    usr = ui->StudNewUsrnTextLine->text();
+    pwd = ui->StudNewPwdTextLine->text();
+    ui->StudActualUsername->setText(usr);
+    ui->StudActualPassword->setText(pwd);
+    ui->StudNewUsrnTextLine->clear();
+    ui->StudNewPwdTextLine->clear();
+}
+
+void loginWindow::on_backbutton_7_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(5);
+}
+
+void loginWindow::on_StudCourse1TestGradesButn_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(7);
+}
+
+void loginWindow::on_StudCourse2TestGradeButn_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(8);
+}
+
+void loginWindow::on_StudCourse3TestGradeButn_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(9);
+}
+
+void loginWindow::on_course1button_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(7);
+}
+
+void loginWindow::on_course2button_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(8);
+}
+
+void loginWindow::on_course3button_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(9);
+}
+
+void loginWindow::on_backbutton_6_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void loginWindow::on_backbutton_5_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void loginWindow::on_backbutton_4_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void loginWindow::on_course1button_2_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(12);
+}
+
+void loginWindow::on_course2button_2_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(13);
+}
+
+void loginWindow::on_pushButton_4_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(11);
+}
+
+void loginWindow::on_pushButton_8_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(11);
+}
+
+void loginWindow::on_pushButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(14);
+}
+
+
+void loginWindow::on_pushButton_9_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(15);
+}
+
+void loginWindow::on_pushButton_11_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(14);
+}
+
+void loginWindow::on_pushButton_12_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(12);
 }
