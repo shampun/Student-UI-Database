@@ -3,8 +3,9 @@
 The goal of this project is to create a program that acts with three users: Admin, Teacher, and student.
 
 ADMIN ACTIONS
-+ADDGrade(int ): Type
-+AddStudents(String): Type
+------------------------------------------------------------------------------------------------------------------------------------------
++ADDGrade(int)
++AddStudents(String)
 +AddTeacher(String)
 +DelStudent(String)
 +DelTeacher(String)
