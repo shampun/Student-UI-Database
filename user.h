@@ -4,20 +4,21 @@
 
 #include<QString>
 
+using namespace std;
 class User
 {
 public:
     QString LastName;
-    QString FirstnName;
+    QString FirstName;
     QString ID;
     User()
     {
         LastName="";
-        FirstnName="";
+        FirstName="";
         ID="";
 
     }
-~User();
+    ~User();
 
     QString getID();
 };

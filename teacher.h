@@ -4,12 +4,14 @@
 #include "user.h"
 #include<QString>
 
+using namespace std;
+
 class Teacher : public User
 {
 public:
     Teacher():User()
     {
-        User();
+
        ID="";
        FirstName="";
        LastName="";
@@ -17,13 +19,49 @@ public:
     }
     ~Teacher();
 
-    Teacher(QString mID, QString FName, QString LName);
+    Teacher(QString mID, QString FName, QString LName) : User()
+    {
+        ID=mID;
+        FirstName=FName;
+        LastName=LName;
+    }
+
 
     void ADDStudent();
     void DELStudent();
     void ADDGrade();
     void DELGrade();
     void ViewClasses();
+
+};
+class Student : public User
+{
+public:
+    Student(): User()
+    {
+
+        ID="";
+        FirstName="";
+        LastName="";
+
+    }
+    Student(QString mID, QString FName, QString LName) : User()
+    {
+        ID=mID;
+        FirstName=FName;
+        LastName=LName;
+    }
+~Student();
+
+
+
+
+
+
+
+
+
+
 
 };
 

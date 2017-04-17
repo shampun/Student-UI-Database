@@ -20,16 +20,18 @@ int main(int argc, char *argv[])
     QSqlDatabase db= QSqlDatabase::addDatabase("QODBC");
     db.setDatabaseName("DRIVER={MySQL ODBC 5.3 Unicode Driver};SERVER=LOCALHOST;Database=mydb;Uid=root;Password=sandman03;");
 
-    if(db.open())
+    if(!db.open())
     {
 
-        cout<< "Database connected"<<endl;
-        w.buildList();
+        cout << "Database connect failed"<<endl;
+        qDebug() <<"error connect" << db.lastError().text();
+
     }
     else
     {
-        cout << "Database connect failed"<<endl;
-        qDebug() <<"error connect" << db.lastError().text();
+        cout<< "Database connected"<<endl;
+
+
     }
 
     return a.exec();

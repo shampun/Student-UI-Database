@@ -2,9 +2,9 @@
 
 User::User()
 {
-ID="";
-FirstnName="";
-LastName="";
+    ID="";
+    FirstName="";
+    LastName="";
 }
 User::getID()
 {

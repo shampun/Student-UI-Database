@@ -1,17 +1,12 @@
 #include "teacher.h"
+#include "user.h"
 #include <QString>
 
 using namespace std;
 
 
 
-Teacher::Teacher(QString mID, QString FName, QString LName)
-{
-ID=mID;
-FirstnName=FName;
-LastName=LName;
 
-}
 Teacher::ADDGrade()
 {
 
