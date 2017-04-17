@@ -1,0 +1,13 @@
+ALTER TABLE `mydb`.`grades` 
+CHANGE COLUMN `TestNum` `Test1` INT(11) NULL DEFAULT NULL ,
+CHANGE COLUMN `Score` `Test2` INT(11) NULL DEFAULT NULL ,
+ADD COLUMN `Test3` INT NULL AFTER `Test2`,
+ADD COLUMN `stuLName` VARCHAR(45) NOT NULL AFTER `Courses_has_Students_Students_idStudents`,
+ADD INDEX `FK_grades_students_idx` (`stuLName` ASC),
+ADD PRIMARY KEY (`stuLName`, `Courses_has_Students_Courses_idCourses`, `Courses_has_Students_Students_idStudents`);
+ALTER TABLE `mydb`.`grades` 
+ADD CONSTRAINT `FK_grades_students`
+  FOREIGN KEY (`stuLName`)
+  REFERENCES `mydb`.`students` (`StuLName`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1307</width>
-    <height>677</height>
+    <width>1325</width>
+    <height>732</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,14 +17,14 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>-80</x>
-      <y>-30</y>
+      <x>20</x>
+      <y>-10</y>
       <width>1301</width>
       <height>631</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QGroupBox" name="groupBox">
@@ -71,7 +71,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Username :</string>
+         <string>love of money</string>
         </property>
        </widget>
        <widget class="QLineEdit" name="usernameLE"/>
@@ -98,33 +98,8 @@
          <string>Password :</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="passwordLE">
-        <property name="echoMode">
-         <enum>QLineEdit::Password</enum>
-        </property>
-       </widget>
+       <widget class="QLineEdit" name="passwordLE"/>
       </widget>
-     </widget>
-     <widget class="QLabel" name="label_7">
-      <property name="geometry">
-       <rect>
-        <x>780</x>
-        <y>160</y>
-        <width>251</width>
-        <height>131</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Currently only LOGOUT button works on every other page. Use it to return to this page.                              Username and Password Combinations: admin/admin student/student  teacher/teacher</string>
-      </property>
-      <property name="wordWrap">
-       <bool>true</bool>
-      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="page_2">
@@ -263,44 +238,42 @@
     </widget>
     <widget class="QWidget" name="page_3">
      <widget class="QPushButton" name="grades_button_2">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
       <property name="geometry">
        <rect>
-        <x>350</x>
+        <x>330</x>
         <y>550</y>
-        <width>141</width>
+        <width>131</width>
         <height>41</height>
        </rect>
       </property>
       <property name="text">
        <string>Grades</string>
       </property>
-      <property name="checkable">
-       <bool>true</bool>
+     </widget>
+     <widget class="QPushButton" name="teachers_button_2">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>270</y>
+        <width>181</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Teacher</string>
       </property>
      </widget>
      <widget class="QPushButton" name="studen_button_2">
       <property name="geometry">
        <rect>
         <x>110</x>
-        <y>320</y>
+        <y>390</y>
         <width>181</width>
         <height>81</height>
        </rect>
       </property>
-      <property name="autoFillBackground">
-       <bool>true</bool>
-      </property>
       <property name="text">
-       <string>Students</string>
-      </property>
-      <property name="checkable">
-       <bool>true</bool>
-      </property>
-      <property name="checked">
-       <bool>false</bool>
+       <string>Student</string>
       </property>
      </widget>
      <widget class="QPushButton" name="logout_button_2">
@@ -319,39 +292,30 @@
      <widget class="QListWidget" name="listWidget_2">
       <property name="geometry">
        <rect>
-        <x>300</x>
+        <x>320</x>
         <y>110</y>
         <width>731</width>
         <height>431</height>
        </rect>
       </property>
      </widget>
-     <widget class="QPushButton" name="Bclasses">
+     <widget class="QPushButton" name="class_button_2">
       <property name="geometry">
        <rect>
-        <x>120</x>
-        <y>210</y>
+        <x>110</x>
+        <y>160</y>
         <width>181</width>
         <height>81</height>
        </rect>
       </property>
       <property name="text">
-       <string>Classes</string>
-      </property>
-      <property name="checkable">
-       <bool>true</bool>
-      </property>
-      <property name="checked">
-       <bool>false</bool>
+       <string>Class</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="Del">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
+     <widget class="QPushButton" name="pushButton_13">
       <property name="geometry">
        <rect>
-        <x>740</x>
+        <x>670</x>
         <y>550</y>
         <width>131</width>
         <height>41</height>
@@ -379,29 +343,23 @@
        <string>TEACHER PAGE</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="Update">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
+     <widget class="QPushButton" name="pushButton_14">
       <property name="geometry">
        <rect>
-        <x>910</x>
+        <x>850</x>
         <y>550</y>
         <width>131</width>
         <height>41</height>
        </rect>
       </property>
       <property name="text">
-       <string>Update</string>
+       <string>WOO</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="Add_button">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
+     <widget class="QPushButton" name="pushButton_15">
       <property name="geometry">
        <rect>
-        <x>560</x>
+        <x>500</x>
         <y>550</y>
         <width>131</width>
         <height>41</height>
@@ -411,35 +369,8 @@
        <string>Add</string>
       </property>
      </widget>
-     <zorder>grades_button_2</zorder>
-     <zorder>studen_button_2</zorder>
-     <zorder>logout_button_2</zorder>
-     <zorder>listWidget_2</zorder>
-     <zorder>Del</zorder>
-     <zorder>label_4</zorder>
-     <zorder>Update</zorder>
-     <zorder>Add_button</zorder>
-     <zorder>Bclasses</zorder>
     </widget>
     <widget class="QWidget" name="page_4">
-     <widget class="QLabel" name="label_5">
-      <property name="geometry">
-       <rect>
-        <x>270</x>
-        <y>110</y>
-        <width>781</width>
-        <height>331</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>48</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>POWER OVVERWHELMING</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="logout_button_3">
       <property name="geometry">
        <rect>
@@ -453,17 +384,102 @@
        <string>Logout</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label_6">
+     <widget class="QPushButton" name="pushButton_2">
       <property name="geometry">
        <rect>
-        <x>590</x>
-        <y>150</y>
-        <width>181</width>
-        <height>91</height>
+        <x>70</x>
+        <y>70</y>
+        <width>81</width>
+        <height>23</height>
        </rect>
       </property>
       <property name="text">
-       <string>Admin Page</string>
+       <string>View Teachers</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>70</y>
+        <width>81</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>View Students</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="geometry">
+       <rect>
+        <x>550</x>
+        <y>160</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_6">
+      <property name="geometry">
+       <rect>
+        <x>550</x>
+        <y>220</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Remove</string>
+      </property>
+     </widget>
+     <widget class="QTableView" name="tableView">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>100</y>
+        <width>471</width>
+        <height>461</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="searchedit">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>70</y>
+        <width>113</width>
+        <height>20</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>70</y>
+        <width>47</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Search</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="testl">
+      <property name="geometry">
+       <rect>
+        <x>770</x>
+        <y>70</y>
+        <width>47</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
       </property>
      </widget>
     </widget>
@@ -474,8 +490,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1307</width>
-     <height>26</height>
+     <width>1325</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuTest_UI_Page">

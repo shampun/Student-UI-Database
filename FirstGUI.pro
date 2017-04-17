@@ -25,33 +25,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mywindow.cpp \
-    teacher.cpp \
-    user.cpp \
-    dialog.cpp
+        mywindow.cpp
 
-HEADERS  += mywindow.h \
-    teacher.h \
-    user.h \
-    dialog.h
+HEADERS  += mywindow.h
 
-FORMS    += mywindow.ui \
-    dialog.ui
+FORMS    += mywindow.ui
 
 
-unix|win32: LIBS += -L$$PWD/../lib/ -llibmysql
-
-INCLUDEPATH += $$PWD/../
-DEPENDPATH += $$PWD/../
-
-unix|win32: LIBS += -L$$PWD/../lib/ -lmysqlclient
-
-INCLUDEPATH += $$PWD/../
-DEPENDPATH += $$PWD/../
-
-unix|win32: LIBS += -L$$PWD/../lib/ -llibmysql
-
-INCLUDEPATH += $$PWD/../
-DEPENDPATH += $$PWD/../
-
-DISTFILES +=
