@@ -2,7 +2,7 @@ ALTER TABLE `mydb`.`grades`
 CHANGE COLUMN `TestNum` `Test1` INT(11) NULL DEFAULT 0 ,
 CHANGE COLUMN `Score` `Test2` INT(11) NULL DEFAULT 0 ,
 ADD COLUMN `Test3` INT NULL DEFAULT 0 AFTER `Test2`,
-ADD COLUMN `avg` INT GENERATED ALWAYS AS ((Test1+Test1+Test1)/3) STORED AFTER `Test3`,
+ADD COLUMN `average` INT GENERATED ALWAYS AS ((Test1+Test1+Test1)/3) STORED AFTER `Test3`,
 DROP PRIMARY KEY,
 ADD PRIMARY KEY (`Courses_has_Students_Courses_idCourses`, `Courses_has_Students_Students_idStudents`);
 USE `mydb`;
