@@ -11,11 +11,7 @@ SELECT GPA
     FROM students
 	WHERE idStudents = new.Courses_has_Students_Students_idStudents;
     
-/*SELECT new.avg
-	INTO avg_convert
-    FROM grades
-    WHERE Courses_has_Students_Courses_idCourses=NEW.Courses_has_Students_Courses_idCourses AND
-		Courses_has_Students_Students_idStudents=NEW.Courses_has_Students_Students_idStudents;*/
+
     
  IF new.avg > 89
 	THEN SET GPAsubtot = 4;
@@ -32,8 +28,7 @@ ELSE
 SELECT COUNT(*)
 	INTO tot_rows
     FROM Grades
-    WHERE Courses_has_Students_Courses_idCourses=NEW.Courses_has_Students_Courses_idCourses AND
-		Courses_has_Students_Students_idStudents=NEW.Courses_has_Students_Students_idStudents;
+    WHERE Courses_has_Students_Students_idStudents=NEW.Courses_has_Students_Students_idStudents;
 		
     
     IF currentGPA IS NOT NULL THEN
