@@ -1,0 +1,50 @@
+
+
+    DECLARE tot_rows integer;
+     DECLARE avg_convert integer;
+    DECLARE GPAsubtot integer;
+    DECLARE currentGPA integer;
+    
+    
+SELECT GPA
+	INTO currentGPA
+    FROM students
+	WHERE idStudents = new.Courses_has_Students_Students_idStudents;
+    
+/*SELECT new.avg
+	INTO avg_convert
+    FROM grades
+    WHERE Courses_has_Students_Courses_idCourses=NEW.Courses_has_Students_Courses_idCourses AND
+		Courses_has_Students_Students_idStudents=NEW.Courses_has_Students_Students_idStudents;*/
+    
+ IF new.avg > 89
+	THEN SET GPAsubtot = 4;
+ELSEIF new.avg > 79
+    THEN SET GPAsubtot = 3;
+ELSEIF new.avg > 69
+    THEN SET GPAsubtot = 2;
+ELSEIF new.avg > 59
+    THEN SET GPAsubtot = 1;
+ELSE  
+     SET GPAsubtot = 0;    /*if then*/
+    END IF;   
+    
+SELECT COUNT(*)
+	INTO tot_rows
+    FROM Grades
+    WHERE Courses_has_Students_Courses_idCourses=NEW.Courses_has_Students_Courses_idCourses AND
+		Courses_has_Students_Students_idStudents=NEW.Courses_has_Students_Students_idStudents;
+		
+    
+    IF currentGPA IS NOT NULL THEN
+		UPDATE students
+        SET GPA = (GPAsubtot + currentGPA)/(tot_rows+1)
+			WHERE idStudents=NEW.Courses_has_Students_Students_idStudents;   
+
+	ELSE
+    UPDATE students
+        SET GPA = GPAsubtot
+			WHERE idStudents=NEW.Courses_has_Students_Students_idStudents;   
+	
+    END IF;
+
