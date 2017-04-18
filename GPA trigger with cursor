@@ -1,5 +1,5 @@
-CREATE DEFINER=`root`@`localhost` TRIGGER `mydb`.`grades_BEFORE_UPDATE` BEFORE UPDATE ON `grades` FOR EACH ROW
-BEGIN
+
+/*"avg' changed to 'average' in the grades table*/
 
 	DECLARE done INT DEFAULT FALSE;
     DECLARE tot_rows integer;
@@ -64,4 +64,3 @@ SELECT COUNT(*)
 			WHERE idStudents=NEW.Courses_has_Students_Students_idStudents;   
  
 	
-END
