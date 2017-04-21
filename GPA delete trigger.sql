@@ -63,6 +63,6 @@ SELECT COUNT(*)
 		UPDATE students
         SET GPA = (GPAsubtot)/(tot_rows)
 			WHERE idStudents= old.Courses_has_Students_Students_idStudents;  
-
+ 
 END$$
 DELIMITER ;
