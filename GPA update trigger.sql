@@ -2,6 +2,7 @@ ALTER TABLE `mydb`.`students`
 CHANGE COLUMN `GPA` `GPA` DECIMAL(2,1) NULL DEFAULT NULL COMMENT 'this is a derived attribute that makes a calculation based off all class averages of that student' ;
 
 DROP TRIGGER IF EXISTS `mydb`.`grades_AFTER_UPDATE`;
+DROP TRIGGER IF EXISTS `mydb`.`grades_BEFORE_INSERT`;
 
 DELIMITER $$
 USE `mydb`$$
