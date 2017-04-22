@@ -25,15 +25,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mywindow.cpp \
-    teacher.cpp \
     user.cpp \
-    dialog.cpp
+    dialog.cpp \
+    mywindow.cpp \
+    teacher.cpp
 
 HEADERS  += mywindow.h \
-    teacher.h \
     user.h \
-    dialog.h
+    dialog.h \
+    teacher.h
 
 FORMS    += mywindow.ui \
     dialog.ui

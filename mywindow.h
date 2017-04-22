@@ -1,6 +1,7 @@
 #ifndef MYWINDOW_H
 #define MYWINDOW_H
 
+#include <user.h>
 #include <QMainWindow>
 #include <QApplication>
 #include <QPushButton>
@@ -13,13 +14,14 @@ class MyWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    User *mUser;
     explicit MyWindow(QWidget *parent = 0);
     void buildList();
     QString finduser(QString Password);
     void Listchoice();
   QPushButton *ADDbutton;
   QPushButton *Delbutton;
-    QPushButton *Updatebutton;
+  QPushButton *Updatebutton;
  QPushButton *Studentbutton;
  QPushButton *Gradebutton;
  QPushButton *Classesbutton;
@@ -45,11 +47,10 @@ private slots:
 
     void on_Add_button_clicked();
 
-    void on_Del_clicked();
-
-    void on_Update_clicked();
 
     void on_Bclasses_clicked();
+
+    void on_DelButton_clicked();
 
 private:
     Ui::MyWindow *ui;

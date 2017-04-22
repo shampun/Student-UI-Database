@@ -345,22 +345,6 @@
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="Del">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>740</x>
-        <y>550</y>
-        <width>131</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Del</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="label_4">
       <property name="geometry">
        <rect>
@@ -379,22 +363,6 @@
        <string>TEACHER PAGE</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="Update">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>910</x>
-        <y>550</y>
-        <width>131</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Update</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="Add_button">
       <property name="enabled">
        <bool>false</bool>
@@ -411,15 +379,30 @@
        <string>Add</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="DelButton">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>740</x>
+        <y>550</y>
+        <width>93</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delete</string>
+      </property>
+     </widget>
      <zorder>grades_button_2</zorder>
      <zorder>studen_button_2</zorder>
      <zorder>logout_button_2</zorder>
      <zorder>listWidget_2</zorder>
-     <zorder>Del</zorder>
      <zorder>label_4</zorder>
-     <zorder>Update</zorder>
      <zorder>Add_button</zorder>
      <zorder>Bclasses</zorder>
+     <zorder>DelButton</zorder>
     </widget>
     <widget class="QWidget" name="page_4">
      <widget class="QLabel" name="label_5">

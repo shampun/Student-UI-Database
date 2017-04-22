@@ -1,7 +1,7 @@
 #include "mywindow.h"
 #include "ui_mywindow.h"
-#include "teacher.h"
 #include "user.h"
+#include <teacher.h>
 #include <QApplication>
 #include <QMessageBox>
 #include <QtSql/QtSql>
@@ -11,7 +11,7 @@
 #include <QPushButton>
 #include <QInputDialog>
 
-Teacher *mUser;
+User *mUser;
 
 QString user="";
  int StudentID;
@@ -30,8 +30,7 @@ MyWindow::MyWindow(QWidget *parent) :
     ui->setupUi(this);
      QObject::connect(ui->listWidget_2,SIGNAL(doubleClicked(QListWidgetItem*)),this,SLOT(ListChoice()));
     ADDbutton=ui->Add_button;
-    Delbutton=ui->Del;
-    Updatebutton=ui->Update;
+    Delbutton=ui->DelButton;
     Studentbutton=ui->studen_button_2;
     Classesbutton=ui->Bclasses;
     Gradebutton=ui->grades_button_2;
@@ -226,7 +225,7 @@ if(Classesbutton->isChecked()&& Studentbutton->isChecked())
             ADDbutton->setEnabled(false);
             Delbutton->setEnabled(false);
             Gradebutton->setEnabled(true);
-            Updatebutton->setEnabled(false);
+           // Updatebutton->setEnabled(false);
 
 
 
@@ -236,7 +235,7 @@ if(Classesbutton->isChecked()&& Studentbutton->isChecked())
     ui->listWidget_2->clear();
         ADDbutton->setEnabled(true);
         Delbutton->setEnabled(true);
-        Updatebutton->setEnabled(true);
+        //Updatebutton->setEnabled(true);
         Studentbutton->setChecked(true);
         QSqlQuery query;
         query.exec("SELECT StuFName,StuLName,InstrLName FROM mydb.courses");
@@ -257,7 +256,7 @@ if(Classesbutton->isChecked()&& Studentbutton->isChecked())
         ADDbutton->setEnabled(false);
         Delbutton->setEnabled(false);
         Gradebutton->setEnabled(true);
-        Updatebutton->setEnabled(false);
+        //Updatebutton->setEnabled(false);
 
 
     }
@@ -268,7 +267,7 @@ if(Classesbutton->isChecked()&& Studentbutton->isChecked())
     ADDbutton->setEnabled(false);
     Delbutton->setEnabled(false);
     Gradebutton->setEnabled(false);
-    Updatebutton->setEnabled(false);
+    //Updatebutton->setEnabled(false);
 
  }
 
@@ -304,9 +303,9 @@ if(Classesbutton->isChecked()&& Studentbutton->isChecked())
       }
         ADDbutton->setEnabled(true);
         Delbutton->setEnabled(true);
-        Updatebutton->setEnabled(false);
+        //Updatebutton->setEnabled(false);
         Studentbutton->setChecked(false);
-        Studentbutton->setPalette(*palette1);
+
 
 
 
@@ -323,8 +322,9 @@ void MyWindow::on_grades_button_2_clicked()
 
     if(!Studentbutton->isChecked() && Classesbutton->isChecked())
     {
-        ADDbutton->setText("AddGrades");
-        Delbutton->setText("RemoveGrade");
+        ADDbutton->setEnabled(false);
+        Delbutton->setEnabled(false);
+
              QListWidgetItem *itm = ui->listWidget_2->currentItem();
             if(itm==NULL)
              {
@@ -355,9 +355,9 @@ void MyWindow::on_grades_button_2_clicked()
                 {
                     for(int i=0;i<students.size();i++)
                     {
-                        if(query.value(3).toString()==students[i]->ID)
+                        if(query.value(5).toString()==students[i]->ID)
                         {
-                            QString line=students[i]->FirstName+" "+students[i]->LastName+" "+query.value(0).toString()+" "+query.value(1).toString();
+                            QString line=students[i]->FirstName+" "+students[i]->LastName+"Test 1 "+query.value(0).toString()+"Test 2 "+query.value(1).toString()+"Test 3"+query.value(2).toString();
                             ui->listWidget_2->addItem(line);
                         }
                     }
@@ -381,7 +381,7 @@ void MyWindow::on_grades_button_2_clicked()
             QString Selected = itm->text();
            QStringList list= Selected.split(QRegExp("\\s+"), QString::SkipEmptyParts);
             QSqlQuery query;
-
+                //grab student ID
             query.exec("SELECT idStudents,StuFName,StuLName,CourseName,InstrLName FROM mydb.courses");
             while(query.next())
             {
@@ -393,15 +393,21 @@ void MyWindow::on_grades_button_2_clicked()
                 }
               }
             ui->listWidget_2->clear();
-         query.exec("SELECT TestNum,Score,Courses_has_Students_Students_idStudents FROM mydb.grades");
+            //Show an individual's Grade
+         query.exec("SELECT Test1,Test2,Test3,Courses_has_Students_Students_idStudents FROM mydb.grades");
          {
             while(query.next())
             {
                 QString str;
-                if(query.value(2).toString()==str.setNum(StudentID))
+                if(query.value(3).toString()==str.setNum(StudentID))
                 {
-                    QString line ="Test"+ query.value(0).toString()+"  "+query.value(1).toString();
+                    QString line =" Test1 "+ query.value(0).toString();
                      ui ->listWidget_2->addItem(line);
+                     QString line2=" Test2 "+query.value(1).toString();
+                     ui ->listWidget_2->addItem(line2);
+                     QString line3=" Test3 "+query.value(2).toString();
+                     ui->listWidget_2->addItem(line3);
+                     break;
                 }
             }
 
@@ -462,43 +468,131 @@ if(Classesbutton->isChecked()&&!Studentbutton->isChecked())
     }
 
 
-    query.prepare("INSERT INTO mydb.students(idStudents,StuFName,StuLName)"
-              "VALUES(?,?,?)");
-    query.bindValue(0,newID);
-    query.bindValue(1,Fname);
-    query.bindValue(2,Lname);
+    query.prepare("INSERT INTO mydb.courses(idCourses,CourseName,StuFName,StuLName,idStudents,InstrFName,InstrLName,Instructors_idInstructors)"
+              "VALUES(?,?,?,?,?,?,?,?)");
+    qDebug()<<courseID;
+    qDebug()<<CourseName;
+    qDebug()<<Fname;
+    qDebug()<<Lname;
+    qDebug()<<newID;
+    qDebug()<<mUser->FirstName;
+    qDebug()<<mUser->LastName;
+    qDebug()<<mUser->ID;
+
+
+    query.bindValue(0,courseID);
+    query.bindValue(1,CourseName);
+    query.bindValue(2,Fname);
+    query.bindValue(3,Lname);
+    query.bindValue(4,newID);
+    query.bindValue(5,mUser->FirstName);
+    query.bindValue(6,mUser->LastName);
+    query.bindValue(7,mUser->ID);
     query.exec();
 }
     //Add grade to student
      if(Classesbutton->isChecked()&&Studentbutton->isChecked() && Gradebutton->isChecked())
      {
+         QListWidgetItem *itm = ui->listWidget_2->currentItem();
+         if(itm==NULL)
+         {
+             qDebug("Please choose student");
+         }
+         else
+         {
+             QString Selected = itm->text();
+            QStringList list= Selected.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+             QSqlQuery query;
+                 //grab student ID
+             query.exec("SELECT idStudents,StuFName,StuLName,CourseName,InstrLName FROM mydb.courses");
+             while(query.next())
+             {
+                 if(query.value(1).toString()==list[0])
+                 {
+                     StudentID=query.value(0).toInt();
+                     break;
+                 }
+               }
          QString testScore=  QInputDialog::getText(this,"Tests","Enter test Score");
-         QString TestNum=  QInputDialog::getText(this,"Tests","Test Number");
+        QString TestNum=  QInputDialog::getText(this,"Tests","Test Number");
 
-         query.prepare("INSERT INTO mydb.grades(TestNum,Score,Courses_has_Students_Courses_idCourses,Courses_has_Students_Students_idStudents)VALUES(?,?,?,?)");
-                 qDebug()<<TestNum.toInt();
-         qDebug()<<testScore.toInt();
-        qDebug()<<courseID.toInt();
-          qDebug()<<StudentID;
-         query.addBindValue(TestNum.toInt());
-         query.addBindValue(testScore.toInt());
-         query.addBindValue(courseID.toInt());
-         query.addBindValue(StudentID);
+            if(TestNum=="1")
+            {
+            query.prepare("INSERT INTO mydb.grades(Test1,Courses_has_Students_Courses_idCourses,Courses_has_Students_Students_idStudents)VALUES(?,?,?)");
+                if(query.isValid())
+                   {
+                     query.addBindValue(testScore.toInt());
+                     query.addBindValue(courseID.toInt());
+                     query.addBindValue(StudentID);
+                   }
+               else if(QMessageBox::question(this,"Grade exist","Entry exist would you like to change it",QMessageBox::Yes |QMessageBox::No))
+                 {
+                   query.prepare("update mydb.grades set Test1=? Where Courses_has_Students_Students_idStudents=?");
+                   query.bindValue(0,testScore.toInt());
+                   query.bindValue(1,StudentID);
+                  }
+                   else
+                   {
+                   QMessageBox::information(this,"No entries added","No entries added");
+                    }
+
+            }
+            if(TestNum=="2")
+            {
+            query.prepare("INSERT INTO mydb.grades(Test2,Courses_has_Students_Courses_idCourses,Courses_has_Students_Students_idStudents)VALUES(?,?,?)");
+            if(query.isValid())
+            {
+                    query.addBindValue(testScore.toInt());
+                    query.addBindValue(courseID.toInt());
+                    query.addBindValue(StudentID);
+              }
+                else if(QMessageBox::question(this,"Grade exist","Entry exist would you like to change it",QMessageBox::Yes |QMessageBox::No))
+                {
+                    query.prepare("update mydb.grades set Test2=? Where Courses_has_Students_Students_idStudents=?");
+                    query.bindValue(0,testScore.toInt());
+                    query.bindValue(1,StudentID);
+                }
+                else
+                {
+                    QMessageBox::information(this,"No entries added","No entries added");
+                }
+            }
+            if(TestNum=="3")
+            {
+           query.prepare("INSERT INTO mydb.grades(Test3,Courses_has_Students_Courses_idCourses,Courses_has_Students_Students_idStudents)VALUES(?,?,?)");
+              if(query.isValid())
+              {
+                   query.addBindValue(testScore.toInt());
+                   query.addBindValue(courseID.toInt());
+                   query.addBindValue(StudentID);
+               }
+               else if(QMessageBox::question(this,"Grade exist","Entry exist would you like to change it",QMessageBox::Yes |QMessageBox::No))
+               {
+                   query.prepare("update mydb.grades set Test3=? Where Courses_has_Students_Students_idStudents=?");
+                   query.bindValue(0,testScore.toInt());
+                   query.bindValue(1,StudentID);
+               }
+               else
+               {
+                   QMessageBox::information(this,"No entries added","no entries added");
+               }
+
+            }
+            else
+            {
+                QMessageBox::information(this,"No entries added","no entries added");
+            }
+            }
+
+
+
          query.exec();
+        }
 
-
-     }
-}
-
-void MyWindow::on_Del_clicked()
-{
 
 }
 
-void MyWindow::on_Update_clicked()
-{
 
-}
 void MyWindow::Listchoice()
 {
 
@@ -545,7 +639,7 @@ void MyWindow::on_Bclasses_clicked()
     ADDbutton->setEnabled(true);
     Delbutton->setEnabled(true);
     ADDbutton->setText(QString("ADDSTUDENT"));
-    Delbutton->setText("DeleteSTUDENT");
+    Delbutton->setText(QString("DeleteStudent"));
     Gradebutton->setEnabled(true);
 
     }
@@ -554,8 +648,75 @@ void MyWindow::on_Bclasses_clicked()
          ui ->listWidget_2->clear();
         Studentbutton->setChecked(false);
         ADDbutton->setEnabled(false);
-        Delbutton->setEnabled(false);
         Gradebutton->setEnabled(false);
+        Delbutton->setEnabled(false);
 
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+void MyWindow::on_DelButton_clicked()
+{
+     QListWidgetItem *itm = ui->listWidget_2->currentItem();
+     QString selected= itm->text();
+
+    //remove students
+    if(Classesbutton->isChecked())
+    {
+        QStringList list= selected.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+         QSqlQuery query;
+
+        query.prepare("update mydb.courses set *, Where StuFname=?");
+        query.bindValue(0,NULL);
+        query.bindValue(1,NULL);
+        query.bindValue(2,NULL);
+        query.bindValue(3,NULL);
+        query.bindValue(4,NULL);
+        query.bindValue(5,NULL);
+        query.bindValue(6,NULL);
+        query.bindValue(7,NULL);
+        query.bindValue(8,list[0]);
+        query.exec();
+    }
+
+    if(Classesbutton->isChecked() && Gradebutton->isChecked())
+    {
+
+
+    }
+     //remove grade of one student
+    if(Classesbutton->isChecked() && Gradebutton->isChecked() && Studentbutton->isChecked())
+    {
+        QStringList list= selected.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+        QSqlQuery query;
+        if(list[0]=="Test1")
+        {
+            query.prepare("update mydb.grades set test1=?, Where Courses_has_Students_Students_idStudents=?");
+            query.bindValue(0,NULL);
+            query.bindValue(1,StudentID);
+        }
+        if(list[0]=="Test2")
+        {
+            query.prepare("update mydb.grades set test2=?, Where Courses_has_Students_Students_idStudents=?");
+            query.bindValue(0,NULL);
+            query.bindValue(1,StudentID);
+        }
+        if(list[0]=="Test3")
+        {
+            query.prepare("update mydb.grades set test3=?, Where Courses_has_Students_Students_idStudents=?");
+            query.bindValue(0,NULL);
+            query.bindValue(1,StudentID);
+
+        }
     }
 }
