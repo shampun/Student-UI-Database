@@ -26,17 +26,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
     user.cpp \
-    dialog.cpp \
     mywindow.cpp \
     teacher.cpp
 
 HEADERS  += mywindow.h \
     user.h \
-    dialog.h \
     teacher.h
 
-FORMS    += mywindow.ui \
-    dialog.ui
+FORMS    += mywindow.ui
 
 
 unix|win32: LIBS += -L$$PWD/../lib/ -llibmysql
