@@ -83,7 +83,7 @@ public:
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         stackedWidget = new QStackedWidget(centralWidget);
         stackedWidget->setObjectName(QStringLiteral("stackedWidget"));
-        stackedWidget->setGeometry(QRect(-60, -50, 1301, 631));
+        stackedWidget->setGeometry(QRect(-80, -30, 1301, 631));
         page = new QWidget();
         page->setObjectName(QStringLiteral("page"));
         groupBox = new QGroupBox(page);

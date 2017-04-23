@@ -1,7 +1,7 @@
 #ifndef MYWINDOW_H
 #define MYWINDOW_H
 
-#include <user.h>
+#include "user.h"
 #include <QMainWindow>
 #include <QApplication>
 #include <QPushButton>
@@ -14,7 +14,7 @@ class MyWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    User *mUser;
+
     explicit MyWindow(QWidget *parent = 0);
     void buildList();
     QString finduser(QString Password);
@@ -50,7 +50,7 @@ private slots:
 
     void on_Bclasses_clicked();
 
-    void on_DelButton_clicked();
+   // void on_DelButton_clicked();
 
 private:
     Ui::MyWindow *ui;

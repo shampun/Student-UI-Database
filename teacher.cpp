@@ -7,28 +7,28 @@ using namespace std;
 
 
 
-Teacher::ADDGrade()
+void Teacher::ADDGrade()
 {
 
 }
-Teacher::ADDStudent()
+void Teacher::ADDStudent()
 {
 
 
 }
-Teacher::DELStudent()
+void Teacher::DELStudent()
 {
 
 }
-Teacher::DELGrade()
+void Teacher::DELGrade()
 {
 
 }
-Teacher::getID()
+QString Teacher::getID()
 {
 return ID;
 }
-Teacher::ViewClasses()
+void Teacher::ViewClasses()
 {
 
 }

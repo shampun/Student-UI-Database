@@ -27,13 +27,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
     user.cpp \
     mywindow.cpp \
-    teacher.cpp
+    teacher.cpp \
 
 HEADERS  += mywindow.h \
     user.h \
-    teacher.h
+    teacher.h \
 
-FORMS    += mywindow.ui
+FORMS    += mywindow.ui \
+
 
 
 unix|win32: LIBS += -L$$PWD/../lib/ -llibmysql

@@ -32,6 +32,7 @@ public:
     void ADDGrade();
     void DELGrade();
     void ViewClasses();
+    QString getID();
 
 };
 class Student : public User
