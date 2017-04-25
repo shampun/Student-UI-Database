@@ -157,7 +157,7 @@ void SIMS::on_listWidget_itemClicked(QListWidgetItem *item)
 
 
             }
-            if (!check)
+            if (check == false)
                 cout << "No grade available for this course!" << endl;
 
         }
