@@ -42,7 +42,6 @@ private slots:
 
 private:
     Ui::SIMS *ui;
-    QSqlDatabase db;
 
 
 };

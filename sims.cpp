@@ -1,5 +1,8 @@
 #include "sims.h"
 #include "ui_sims.h"
+#include "teacher.h"
+#include "ui_teacher.h"
+#include "loginwindow.h"
 
 using namespace std;
 SIMS::SIMS(QWidget *parent) :
@@ -8,26 +11,61 @@ SIMS::SIMS(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    db= QSqlDatabase::addDatabase("QODBC");
-    db.setDatabaseName("DRIVER={MySQL ODBC 5.3 Unicode Driver};SERVER=LOCALHOST;Database=mydb;Uid=root;Password=comodo25PAnda;");
 
-    if(db.open())
+    ui->stackedWidget->setCurrentIndex(1);
+    ui->StudLoginStatusLabel->clear();
+    //usr = ui->StudUsrnLE->text();
+   // pwd = ui->StudPwdLE->text();
+
+    QSqlQuery query;
+    if (query.exec("SELECT * FROM mydb.students"))
     {
-        cout << "Database connected!!!! " << endl;
+        while (query.next())
+        {
+            if(query.value(3).toString() == usr && query.value(4).toString() == pwd)
+            {
+                id = query.value(0).toString();
+                fname = query.value(1).toString();
+                lname = query.value(2).toString();
+                GPA = query.value(5).toString();
+                qDebug () << usr << pwd << id << fname << lname << GPA;
+                ui->stackedWidget->setCurrentIndex(1);
+                ui->TheStudentName->setText(fname+" "+lname);
+                ui->TheStudentID->setText(id);
+                getClass ();
+
+            }
+
+        }
+        if (GPA == "Not Available")
+               ui->StudLoginStatusLabel->setText("Wrong cridentials! Try again!");
+     }
+    if(query.exec("Select * From mydb.instructors"))
+    {
+        while (query.next())
+        {
+            if(query.value(3).toString() == usr && query.value(4).toString() == pwd)
+            {
+
+
+            }
+        }
+
     }
     else
     {
-        cout << "Database connect failed"<<endl;
-        qDebug() <<"error connect" << db.lastError().text();
+        cout << "Can't find table!!" << endl;
+        //ui->StudUsrnLE->clear();
+        //ui->StudPwdLE->clear();
     }
 
-    ui->stackedWidget->setCurrentIndex(0);
+
 }
 
 SIMS::~SIMS()
 {
     delete ui;
-    db.close();
+
 }
 
 void SIMS::on_StudLoginBtn_clicked()
@@ -59,10 +97,32 @@ void SIMS::on_StudLoginBtn_clicked()
         if (GPA == "Not Available")
                ui->StudLoginStatusLabel->setText("Wrong cridentials! Try again!");
      }
+    if(query.exec("Select * From mydb.instructors"))
+    {
+        while (query.next())
+        {
+            if(query.value(3).toString() == usr && query.value(4).toString() == pwd)
+            {
+
+
+            }
+        }
+
+    }
     else
+    {
         cout << "Can't find table!!" << endl;
-    ui->StudUsrnLE->clear();
-    ui->StudPwdLE->clear();
+        ui->StudUsrnLE->clear();
+        ui->StudPwdLE->clear();
+    }
+
+
+//      this->hide();
+//     Teacher *m=new Teacher(this);
+//        m->show();
+
+
+
 }
 
 void SIMS::on_pushButton_clicked()

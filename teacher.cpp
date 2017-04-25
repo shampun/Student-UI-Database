@@ -1,34 +1,39 @@
 #include "teacher.h"
-#include "user.h"
-#include <QString>
+#include "ui_teacher.h"
 
-using namespace std;
+Teacher::Teacher(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::Teacher)
+{
+    ui->setupUi(this);
+}
 
-
-
-
-Teacher::ADDGrade()
+Teacher::~Teacher()
+{
+    delete ui;
+}
+void Teacher::AddGrade()
 {
 
 }
-Teacher::ADDStudent()
-{
-
-
-}
-Teacher::DELStudent()
+void Teacher::DelGrade()
 {
 
 }
-Teacher::DELGrade()
+void Teacher::AddStudent()
 {
 
 }
-Teacher::getID()
+void Teacher::RemoveStudent()
 {
-return ID;
+
 }
-Teacher::ViewClasses()
+void Teacher::ShowGrades()
 {
+
+}
+void Teacher::ShowStudents()
+{
+
 
 }

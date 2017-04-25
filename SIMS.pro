@@ -25,8 +25,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        sims.cpp
+        sims.cpp \
+    teacher.cpp \
+    loginwindow.cpp
 
-HEADERS  += sims.h
+HEADERS  += sims.h \
+    teacher.h \
+    loginwindow.h
 
-FORMS    += sims.ui
+FORMS    += sims.ui \
+    teacher.ui \
+    loginwindow.ui

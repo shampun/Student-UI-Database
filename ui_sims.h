@@ -72,6 +72,9 @@ public:
     QLabel *StudIDlabel;
     QLabel *StudInfoUsernameLabel;
     QLabel *StudInfoPasswordLabel;
+    QWidget *TeacherMain;
+    QListWidget *ClassList;
+    QListWidget *StudentList;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -85,7 +88,7 @@ public:
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         stackedWidget = new QStackedWidget(centralWidget);
         stackedWidget->setObjectName(QStringLiteral("stackedWidget"));
-        stackedWidget->setGeometry(QRect(20, 0, 701, 341));
+        stackedWidget->setGeometry(QRect(20, -10, 701, 341));
         page = new QWidget();
         page->setObjectName(QStringLiteral("page"));
         StudUsrnLabel = new QLabel(page);
@@ -214,10 +217,19 @@ public:
         StudInfoPasswordLabel->setObjectName(QStringLiteral("StudInfoPasswordLabel"));
         StudInfoPasswordLabel->setGeometry(QRect(210, 170, 101, 16));
         stackedWidget->addWidget(page_2);
+        TeacherMain = new QWidget();
+        TeacherMain->setObjectName(QStringLiteral("TeacherMain"));
+        ClassList = new QListWidget(TeacherMain);
+        ClassList->setObjectName(QStringLiteral("ClassList"));
+        ClassList->setGeometry(QRect(70, 50, 256, 192));
+        StudentList = new QListWidget(TeacherMain);
+        StudentList->setObjectName(QStringLiteral("StudentList"));
+        StudentList->setGeometry(QRect(410, 60, 256, 192));
+        stackedWidget->addWidget(TeacherMain);
         SIMS->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(SIMS);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 735, 21));
+        menuBar->setGeometry(QRect(0, 0, 735, 26));
         SIMS->setMenuBar(menuBar);
         mainToolBar = new QToolBar(SIMS);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -228,7 +240,7 @@ public:
 
         retranslateUi(SIMS);
 
-        stackedWidget->setCurrentIndex(1);
+        stackedWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(SIMS);

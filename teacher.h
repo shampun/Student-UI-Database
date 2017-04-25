@@ -1,67 +1,29 @@
 #ifndef TEACHER_H
 #define TEACHER_H
 
-#include "user.h"
-#include<QString>
+#include <QMainWindow>
 
-using namespace std;
+namespace Ui {
+class Teacher;
+}
 
-class Teacher : public User
+class Teacher : public QMainWindow
 {
+    Q_OBJECT
+
 public:
-    Teacher():User()
-    {
-
-       ID="";
-       FirstName="";
-       LastName="";
-
-    }
+    explicit Teacher(QWidget *parent = 0);
     ~Teacher();
 
-    Teacher(QString mID, QString FName, QString LName) : User()
-    {
-        ID=mID;
-        FirstName=FName;
-        LastName=LName;
-    }
+private:
+    Ui::Teacher *ui;
 
-
-    void ADDStudent();
-    void DELStudent();
-    void ADDGrade();
-    void DELGrade();
-    void ViewClasses();
-
-};
-class Student : public User
-{
-public:
-    Student(): User()
-    {
-
-        ID="";
-        FirstName="";
-        LastName="";
-
-    }
-    Student(QString mID, QString FName, QString LName) : User()
-    {
-        ID=mID;
-        FirstName=FName;
-        LastName=LName;
-    }
-~Student();
-
-
-
-
-
-
-
-
-
-
+    void AddStudent();
+    void RemoveStudent();
+    void DelGrade();
+    void AddGrade();
+    void ShowStudents();
+    void ShowGrades();
 
 };
 
