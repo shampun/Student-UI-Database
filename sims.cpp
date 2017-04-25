@@ -116,9 +116,10 @@ void SIMS::getClass()
                 sameclass = myclass;
             }
         }
-        else if (myclass == "")
-            ui->listWidget->addItem("Student not enroll in a course.");
+
     }
+    if (myclass == "")
+        ui->listWidget->addItem("Student not enroll in a course.");
 }
 
 
@@ -126,7 +127,8 @@ void SIMS::on_listWidget_itemClicked(QListWidgetItem *item)
 {
     QString thecourseid = "";
     QString ProfFname = "";
-     QString ProfLname = "";
+    QString ProfLname = "";
+    bool check = false;
     QSqlQuery query;
     query.exec("SELECT * FROM mydb.courses");
     while (query.next())
@@ -150,11 +152,12 @@ void SIMS::on_listWidget_itemClicked(QListWidgetItem *item)
                     ui->Test3Grade->setText(q.value(2).toString());
                     ui->AverageGrade->setText(q.value(3).toString());
                     ui->StudGPAvalue->setText(GPA+" out of 4.00");
+                    check = true;
                 }
 
 
             }
-            if (GPA == "Not Available")
+            if (!check)
                 cout << "No grade available for this course!" << endl;
 
         }

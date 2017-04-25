@@ -179,10 +179,10 @@ public:
         page_2->setObjectName(QStringLiteral("page_2"));
         InfoBackButn = new QPushButton(page_2);
         InfoBackButn->setObjectName(QStringLiteral("InfoBackButn"));
-        InfoBackButn->setGeometry(QRect(20, 240, 75, 23));
+        InfoBackButn->setGeometry(QRect(20, 310, 75, 23));
         groupBox = new QGroupBox(page_2);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(170, 10, 361, 221));
+        groupBox->setGeometry(QRect(190, 80, 361, 221));
         label_2 = new QLabel(groupBox);
         label_2->setObjectName(QStringLiteral("label_2"));
         label_2->setGeometry(QRect(60, 50, 61, 16));
