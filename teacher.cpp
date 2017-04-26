@@ -1,5 +1,10 @@
 #include "teacher.h"
 #include "ui_teacher.h"
+#include "loginwindow.h"
+#include <QtSql/QtSql>
+#include <Qtsql/QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlDriver>
 
 Teacher::Teacher(QWidget *parent) :
     QMainWindow(parent),
@@ -36,4 +41,26 @@ void Teacher::ShowStudents()
 {
 
 
+}
+void Teacher::GetClasses(QString s)
+{
+    QSqlQuery query;
+    if (query.exec("SELECT * FROM mydb.courses"))
+    {
+        while (query.next())
+        {
+            if(query.value(7).toString()==s)
+            {
+                QString line=query.value(1).toString();
+                QString line2;
+                if(line2==line)
+                {
+                    continue;
+                }
+                ui->listWidget->addItem(line);
+
+            }
+        }
+
+}
 }
