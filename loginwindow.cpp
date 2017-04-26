@@ -2,6 +2,7 @@
 #include "ui_loginwindow.h"
 #include "sims.h"
 #include "teacher.h"
+#include <admin.h>
 
 
 Loginwindow::Loginwindow(QWidget *parent) :
@@ -63,3 +64,5 @@ QString username = ui->LoginUserName->text();
         ui->LoginUserName->clear();
     }
 }
+
+
