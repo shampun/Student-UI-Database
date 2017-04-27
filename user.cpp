@@ -1,16 +1,16 @@
 #include "user.h"
-#include "mywindow.h"
-#include <iostream>
 
-//User::User()
-//{
-//    ID="";
-//    FirstName="";
-//    LastName="";
-//}
-
-QString User::getID()
+User::User()
 {
-return ID;
+    ID="";
+    FirstName="";
+    LastName="";
 }
+User::getID()
+{
 
+
+
+
+
+}

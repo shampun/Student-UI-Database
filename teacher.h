@@ -3,6 +3,8 @@
 #include <qlist.h>
 #include <QMainWindow>
 #include <QList>
+#include <QListWidgetItem>
+#include <QListWidget>
 namespace Ui {
 class Teacher;
 }
@@ -31,7 +33,7 @@ public:
     void RemoveStudent(QString CourseID, QString StudFname);
     void DelGrade(QString CourseID, QString StudentID, QString Testnum);
     void AddGrade(QString StudentID,int CourseID);
-    QStringList ShowStudents(Teacher Teach);
+    QStringList ShowStudents(QString CourseName);
     QStringList ShowGrades(QString CourseID, Teacher teach);
     QStringList GetClasses(QString ID);
     QString FindStudent(int ID);
@@ -39,6 +41,12 @@ private slots:
     void on_pushButton_clicked();
 
     void on_classes_clicked();
+
+    void on_Mclasses_clicked();
+
+    void on_TeachWidget_itemClicked(QListWidgetItem *item);
+
+    void on_pushButton_2_clicked();
 
 private:
     Ui::Teacher *ui;

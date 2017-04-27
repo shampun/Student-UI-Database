@@ -7,15 +7,19 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include<qstring.h>
+#include <QListWidgetItem>
+#include <QListWidget>
+
 
   QStringList Classes;
+   QStringList Students;
 
 Teacher::Teacher(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Teacher)
 {
     ui->setupUi(this);
-
+    ui->TeachWidget->addItems(Classes);
 }
 
 Teacher::~Teacher()
@@ -239,20 +243,21 @@ QStringList Teacher::ShowGrades(QString CourseID,Teacher teach)
     return mGrades;
 
 }
-QStringList Teacher::ShowStudents(Teacher Teach)
+QStringList Teacher::ShowStudents(QString CourseName)
 {
-    QStringList Students;
+
     QSqlQuery query;
     query.exec("SELECT * FROM mydb.courses;");
     while(query.next())
     {
-        if(query.value(7)==Teach.ID)
+        if(query.value(1)==CourseName)
         {
             QString line=query.value(2).toString()+" "+query.value(3).toString();
             Students.append(line);
 
         }
     }
+    ui->listWidget_2->addItems(Students);
    return Students;
 
 }
@@ -287,7 +292,7 @@ QStringList Teacher::GetClasses(QString ID)
 
 void Teacher::on_pushButton_clicked()
 {
-      ui->Classeslbl->setText("AJ IS the man");
+
           QString line;
             QString line2;
     QSqlQuery query;
@@ -309,7 +314,7 @@ void Teacher::on_pushButton_clicked()
                     qDebug()<<line;
 
 
-                    ui->TeacherWidget->addItem(line);
+                    ui->TeachWidget->addItem(line);
                     ui->listWidget_2->addItem(line);
                     //ui->TeacherWidget->addItems(line);
                 }
@@ -319,10 +324,27 @@ void Teacher::on_pushButton_clicked()
         }
 
     }
-    ui->TeacherWidget->addItem(line);
+    ui->TeachWidget->addItem(line);
 }
 
 void Teacher::on_classes_clicked()
 {
-    ui->listWidget_2->addItems(Classes);
+
+}
+
+void Teacher::on_Mclasses_clicked()
+{
+     ui->TeachWidget->addItems(Classes);
+}
+
+void Teacher::on_TeachWidget_itemClicked(QListWidgetItem *item)
+{
+   QString name=item->text();
+   ShowStudents(name);
+
+}
+
+void Teacher::on_pushButton_2_clicked()
+{
+
 }

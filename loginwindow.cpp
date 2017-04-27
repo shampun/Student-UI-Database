@@ -1,6 +1,7 @@
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
 #include "sims.h"
+#include "admin.h"
 #include "teacher.h"
 #include <QtSql/QtSql>
 #include <Qtsql/QSqlDatabase>
@@ -23,13 +24,11 @@ Loginwindow::~Loginwindow()
 
 void Loginwindow::on_pushButton_clicked()
 {
-//QString username = ui->LoginUserName->text();
-// QString   pwd = ui->LoginPassword->text();
+QString username = ui->LoginUserName->text();
+ QString   pwd = ui->LoginPassword->text();
 
-    QString  username = "cmartinez0";
-    QString  pwd = "z8r2Py";
     QSqlQuery query;
-    SIMS student;
+    SIMS *student=new SIMS();
     if (query.exec("SELECT * FROM mydb.students"))
     {
         while (query.next())
@@ -38,15 +37,15 @@ void Loginwindow::on_pushButton_clicked()
             {
 
                 this->hide();
-               SIMS *s=new SIMS(this);
-                  s->show();
-                  student.id = query.value(0).toString();
-                   student.fname = query.value(1).toString();
-                   student.lname = query.value(2).toString();
-                  student.GPA = query.value(5).toString();
-                  student.usr=username;
-                  student.pwd=pwd;
-                  student.getClass();
+
+                  student->show();
+                  student->id = query.value(0).toString();
+                   student->fname = query.value(1).toString();
+                   student->lname = query.value(2).toString();
+                  student->GPA = query.value(5).toString();
+                  student->usr=username;
+                  student->pwd=pwd;
+                  student->getClass();
                     break;
 
             }
@@ -81,6 +80,34 @@ void Loginwindow::on_pushButton_clicked()
         }
 
     }
+     Admin *admin=new Admin();
+    if(query.exec("Select * From mydb.admins"))
+    {
+        while (query.next())
+        {
+            qDebug()<<query.value(1);
+            qDebug()<<query.value(2);
+            if(query.value(1).toString() == username && query.value(2).toString() == pwd)
+            {
+
+                this->hide();
+               // Teacher *T=new
+              //  Teacher(query.value(0).toString(),query.value(1).toString(),query.value(2).toString());
+               //Teacher *T=new Teacher(query.value(0).toString(),query.value(1).toString(),query.value(2).toString());
+//                Teacher *T=new Teacher(this);
+
+
+
+                //T.show();
+                admin->show();
+
+
+                break;
+            }
+        }
+
+    }
+
     else
     {
         cout << "Can't find table!!" << endl;

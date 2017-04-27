@@ -1,13 +1,10 @@
 #ifndef USER_H
 #define USER_H
 
-#include "mywindow.h"
-#include "ui_mywindow.h"
+
 #include<QString>
 
 using namespace std;
-
-
 class User
 {
 public:
@@ -21,10 +18,7 @@ public:
         ID="";
 
     }
-
     ~User();
-
-
 
     QString getID();
 };
