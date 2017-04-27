@@ -75,7 +75,7 @@ void Loginwindow::on_pushButton_clicked()
                 Teach.ID=query.value(0).toString();
                 Teach.FirstName=query.value(1).toString();
                 Teach.LastName=query.value(2).toString();
-                Teach.GetClasses(Teach.ID);
+                //Teach.GetClasses(Teach);
                 break;
             }
         }

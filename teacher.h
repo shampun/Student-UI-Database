@@ -1,69 +1,72 @@
 #ifndef TEACHER_H
 #define TEACHER_H
+#include <qlist.h>
+#include <QMainWindow>
+#include <QList>
+namespace Ui {
+class Teacher;
+}
 
-#include "user.h"
-#include<QString>
-
-using namespace std;
-
-class Teacher : public User
+class Teacher : public QMainWindow
 {
-public:
-    Teacher():User()
-    {
+    Q_OBJECT
 
-       ID="";
-       FirstName="";
-       LastName="";
+public:
+    QString ID;
+    QString FirstName;
+    QString LastName;
+
+
+    Teacher(QString mID,QString mFirstName,QString mLastName)
+    {
+        ID=mID;
+        FirstName=mFirstName;
+        LastName=mLastName;
 
     }
+    explicit Teacher(QWidget *parent = 0);
     ~Teacher();
 
-    Teacher(QString mID, QString FName, QString LName) : User()
-    {
-        ID=mID;
-        FirstName=FName;
-        LastName=LName;
-    }
+    void AddStudent(QString CourseID,QString CourseName,Teacher teach);
+    void RemoveStudent(QString CourseID, QString StudFname);
+    void DelGrade(QString CourseID, QString StudentID, QString Testnum);
+    void AddGrade(QString StudentID,int CourseID);
+    QStringList ShowStudents(Teacher Teach);
+    QStringList ShowGrades(QString CourseID, Teacher teach);
+    QStringList GetClasses(Teacher Teach);
+    QString FindStudent(int ID);
+private slots:
+    void on_pushButton_clicked();
 
+private:
+    Ui::Teacher *ui;
 
-    void ADDStudent();
-    void DELStudent();
-    void ADDGrade();
-    void DELGrade();
-    void ViewClasses();
-    QString getID();
 
 };
-class Student : public User
+class Student
 {
-public:
-    Student(): User()
-    {
+    public:
+    QString ID;
+    QString FirstName;
+    QString LastName;
+        Student()
+        {
 
-        ID="";
-        FirstName="";
-        LastName="";
+            ID="";
+            FirstName="";
+            LastName="";
 
-    }
-    Student(QString mID, QString FName, QString LName) : User()
-    {
-        ID=mID;
-        FirstName=FName;
-        LastName=LName;
-    }
-~Student();
-
-
-
-
-
-
-
-
-
-
+        }
+        Student(QString mID, QString FName, QString LName)
+        {
+            ID=mID;
+            FirstName=FName;
+            LastName=LName;
+        }
+    ~Student();
 
 };
+
+
 
 #endif // TEACHER_H
