@@ -27,11 +27,13 @@ public:
 
     //Define Filter
     QSortFilterProxyModel *proxyModel= new QSortFilterProxyModel(this);
+    QSortFilterProxyModel *proxy_Model= new QSortFilterProxyModel(this);
     QSortFilterProxyModel *CourseProxy= new QSortFilterProxyModel(this);
     QSortFilterProxyModel *Cstudent= new QSortFilterProxyModel(this);
     QSortFilterProxyModel *Cteacher= new QSortFilterProxyModel(this);
     QSqlTableModel *model;
     QSqlTableModel *CourseModel;
+
     int Tcheck = 0;
 
     explicit Admin(QWidget *parent = 0);
@@ -49,8 +51,6 @@ private slots:
     void on_comboBox_currentIndexChanged(int index);
 
     void on_pushButton_9_clicked();
-
-    void on_pushButton_clicked();
 
     void on_pushButton_2_clicked();
 
@@ -74,8 +74,36 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_courseView_activated(const QModelIndex &index);
+
+    void on_searchedit_2_textChanged(const QString &arg1);
+
+    void on_comboBox_2_currentIndexChanged(int index);
+
+    void on_pushButton_22_clicked();
+
+    void on_remInstructor_clicked();
+
+    void on_CourseView_2_activated(const QModelIndex &index);
+
+    void on_pushButton_clicked();
+
+    void on_searchedit_4_textChanged(const QString &arg1);
+
+    void on_comboBox_4_currentIndexChanged(int index);
+
+    void on_searchedit_3_textChanged(const QString &arg1);
+
+    void on_comboBox_3_currentIndexChanged(int index);
+
+    void on_searchedit_5_textChanged(const QString &arg1);
+
 private:
     Ui::Admin *ui;
+    void DeleteCourse();
+    void LoadCourseInfo();
+    void DeleteStudents();
+    void DeleteInstructor();
     void UpdateStudent();
     void UpdateTeacher();
     void Add_Instructor();

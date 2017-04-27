@@ -19,12 +19,73 @@ Admin::Admin(QWidget *parent) :
 {
     ui->setupUi(this);
     proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-
+    proxy_Model->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    Cteacher->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    Cstudent->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    CourseProxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
 }
 
 Admin::~Admin()
 {
     delete ui;
+}
+
+void Admin::DeleteCourse()
+{
+    QString cid,cname,sname,slast,sid,tname,tlast,tid;
+
+    cid=ui->cid->text();
+    cname=ui->cname->text();
+    sname=ui->sname->text();
+    slast=ui->slast->text();
+    sid=ui->sid->text();
+    tname=ui->tname->text();
+    tlast=ui->tlast->text();
+    tid=ui->tid->text();
+
+    QSqlQuery delstud;
+  delstud.prepare("Delete from courses where idCourses='"+cid+"',CourseName='"+cname+"',StuFName='"+sname+"'");\
+
+  if (delstud.exec())
+  {
+      QMessageBox::critical(this,tr("Delete"), tr("Deleted"));
+  }
+  else
+  {
+     QMessageBox::critical(this,tr("Error"), tr("Error"));
+  }
+}
+
+void Admin::DeleteStudents()
+{
+  QString stid=ui->stid->text();
+  QSqlQuery delstud;
+delstud.prepare("Delete from students where idStudents='"+stid+"'");\
+
+if (delstud.exec())
+{
+    QMessageBox::critical(this,tr("Delete"), tr("Deleted"));
+}
+else
+{
+   QMessageBox::critical(this,tr("Error"), tr("Error"));
+}
+}
+
+void Admin::DeleteInstructor()
+{
+    QString stid=ui->stid->text();
+    QSqlQuery delteach;
+  delteach.prepare("Delete from instructors where idInstructors='"+stid+"'");\
+
+  if (delteach.exec())
+  {
+      QMessageBox::critical(this,tr("Delete"), tr("Deleted"));
+  }
+  else
+  {
+     QMessageBox::critical(this,tr("Error"), tr("Error"));
+  }
 }
 
 void Admin::BuildTeacherView()
@@ -47,9 +108,9 @@ void Admin::BuildTeacherView()
 
 
 
-      proxyModel->setSourceModel(teachermodel);
+      proxy_Model->setSourceModel(teachermodel);
 
-      ui->tableView->setModel(proxyModel);
+      ui->courseView->setModel(proxy_Model);
       Tcheck = 0;
 }
 void Admin::BuildCourseTeacher()
@@ -200,29 +261,35 @@ void Admin::RegisterNewClass()
     tid=ui->tid->text();
 
     QSqlQuery addstudent;
-       addstudent.prepare ("insert into mydb.students (idCourses, CourseName, StuFName, StuLName, idStudents, InstrFName, InstrLName, Instructors_idInstructors) values (?,?,?,?,?,?,?,?)");
+       addstudent.prepare ("insert into mydb.courses (idCourses, CourseName, StuFName, StuLName, idStudents, InstrFName, InstrLName, Instructors_idInstructors) values (?,?,?,?,?,?,?,?)");
        addstudent.bindValue(0, cid);
        addstudent.bindValue(1, cname);
-       addstudent.bindValue(2, stid);
-       addstudent.bindValue(3, stname);
-       addstudent.bindValue(4, stlast);
+       addstudent.bindValue(2, stname);
+       addstudent.bindValue(3, stlast);
+       addstudent.bindValue(4, stid);
        addstudent.bindValue(5, tname);
        addstudent.bindValue(6, tlast);
        addstudent.bindValue(7, tid);
        addstudent.exec();
+
+       if (addstudent.exec())
+       {
+           QMessageBox::critical(this,tr("Register"), tr("Registered"));
+       }
+
 }
 
 void Admin::UpdateTeacher()
 {
-    QString id,name,last,user,pw;
+    QString stid,stname,stlast,stuser,stpw;
 
-    id=ui->stid->text();
-   name=ui->stname->text();
-    last=ui->stlast->text();
-    user=ui->stuser->text();
-    pw=ui->stpw->text();
-    QSqlQuery updaid;
-    updaid.exec("UPDATE instructors Set idInstructors='"+name+"',InstrFName='"+last+"',InstrLNameN='"+user+"',InstrPassW='"+pw+"'  where idInstructors='"+id+"'");
+    stid=ui->stid->text();
+    stname=ui->stname->text();
+    stlast=ui->stlast->text();
+    stuser=ui->stuser->text();
+    stpw=ui->stpw->text();
+    QSqlQuery updatest;
+    updatest.exec("UPDATE instructors set InstrFName='"+stname+"',InstrLName='"+stlast+"',InstrUserN='"+stuser+"',InstrPassW='"+stpw+"' where idInstructors='"+stid+"'");
 
 }
 void Admin::UpdateStudent()
@@ -263,11 +330,7 @@ void Admin::on_pushButton_9_clicked()
 ui->stackedWidget->setCurrentIndex(1);
 }
 
-void Admin::on_pushButton_clicked()
-{
-    BuildCourseView();
-    ui->courseView->setModel(CourseProxy);
-}
+
 
 void Admin::on_pushButton_2_clicked()
 {
@@ -285,25 +348,8 @@ void Admin::on_tableView_activated(const QModelIndex &index)
 {
     QString ccc = ui->tableView->model()->data(index).toString();
 
-    if(Tcheck=1)
-    {
-    QSqlQuery mod;
-    mod.prepare("select * from instructors where idInstructors='"+ccc+"' or InstrFName='"+ccc+"' or InstrLName='"+ccc+"' or InstrUserN='"+ccc+"'" );
 
-    if (mod.exec())
-    {
-        while (mod.next())
-    {
-    ui->stid->setText(mod.value(0).toString());
-    ui->stname->setText(mod.value(1).toString());
-    ui->stlast->setText(mod.value(2).toString());
-    ui->stuser->setText(mod.value(3).toString());
-    ui->stpw->setText(mod.value(4).toString());
-        }
-    }
-}
-    if(Tcheck=2)
-    {
+
     QSqlQuery mod2;
     mod2.prepare("select * from students where idStudents='"+ccc+"' or StuFName='"+ccc+"' or StuLName='"+ccc+"' or StuUserN='"+ccc+"'" );
 
@@ -318,7 +364,7 @@ void Admin::on_tableView_activated(const QModelIndex &index)
     ui->stpw->setText(mod2.value(4).toString());
         }
     }
-    }
+
 }
 
 void Admin::on_pushButton_5_clicked()
@@ -396,4 +442,101 @@ void Admin::on_pushButton_4_clicked()
 {
     UpdateTeacher();
     BuildTeacherView();
+}
+
+void Admin::on_courseView_activated(const QModelIndex &index)
+{
+    QString ccccc = ui->courseView->model()->data(index).toString();
+    QSqlQuery mod;
+    mod.prepare("select * from instructors where idInstructors='"+ccccc+"' or InstrFName='"+ccccc+"' or InstrLName='"+ccccc+"' or InstrUserN='"+ccccc+"'" );
+
+    if (mod.exec())
+    {
+        while (mod.next())
+    {
+    ui->stid->setText(mod.value(0).toString());
+    ui->stname->setText(mod.value(1).toString());
+    ui->stlast->setText(mod.value(2).toString());
+    ui->stuser->setText(mod.value(3).toString());
+    ui->stpw->setText(mod.value(4).toString());
+        }
+    }
+}
+
+void Admin::on_searchedit_2_textChanged(const QString &arg1)
+{
+    proxy_Model->setFilterFixedString(arg1);
+}
+
+void Admin::on_comboBox_2_currentIndexChanged(int index)
+{
+    proxy_Model->setFilterKeyColumn(index);
+}
+
+
+void Admin::on_pushButton_22_clicked()
+{
+    DeleteStudents();
+    BuildStudentView();
+}
+
+void Admin::on_remInstructor_clicked()
+{
+    DeleteInstructor();
+    BuildTeacherView();
+}
+
+void Admin::on_CourseView_2_activated(const QModelIndex &index)
+{
+    QString c = ui->CourseView_2->model()->data(index).toString();
+    QSqlQuery mod;
+    mod.prepare("select *from courses where idCourses='"+c+"'or CourseName='"+c+"'" );
+
+    if (mod.exec())
+    {
+        while (mod.next())
+    {
+    ui->cid->setText(mod.value(0).toString());
+    ui->cname->setText(mod.value(1).toString());
+    ui->sid->setText(mod.value(2).toString());
+    ui->sname->setText(mod.value(3).toString());
+    ui->slast->setText(mod.value(4).toString());
+    ui->tid->setText(mod.value(5).toString());
+    ui->tname->setText(mod.value(6).toString());
+    ui->tlast->setText(mod.value(7).toString());
+
+        }
+    }
+}
+
+void Admin::on_pushButton_clicked()
+{
+DeleteCourse();
+}
+
+void Admin::on_searchedit_4_textChanged(const QString &arg1)
+{
+    Cteacher->setFilterFixedString(arg1);
+}
+
+
+void Admin::on_comboBox_4_currentIndexChanged(int index)
+{
+    Cteacher->setFilterKeyColumn(index);
+}
+
+void Admin::on_searchedit_3_textChanged(const QString &arg1)
+{
+    Cstudent->setFilterFixedString(arg1);
+}
+
+void Admin::on_comboBox_3_currentIndexChanged(int index)
+{
+    Cstudent->setFilterKeyColumn(index);
+}
+
+void Admin::on_searchedit_5_textChanged(const QString &arg1)
+{
+    CourseProxy->setFilterFixedString(arg1);
+    CourseProxy->setFilterKeyColumn(0);
 }

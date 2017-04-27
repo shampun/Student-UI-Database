@@ -2,11 +2,7 @@
 #include "ui_loginwindow.h"
 #include "sims.h"
 #include "teacher.h"
-#include <QtSql/QtSql>
-#include <Qtsql/QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlDriver>
-
+#include <admin.h>
 
 
 Loginwindow::Loginwindow(QWidget *parent) :
@@ -23,11 +19,9 @@ Loginwindow::~Loginwindow()
 
 void Loginwindow::on_pushButton_clicked()
 {
-//QString username = ui->LoginUserName->text();
-// QString   pwd = ui->LoginPassword->text();
+QString username = ui->LoginUserName->text();
+ QString   pwd = ui->LoginPassword->text();
 
-    QString  username = "cmartinez0";
-    QString  pwd = "z8r2Py";
     QSqlQuery query;
     SIMS student;
     if (query.exec("SELECT * FROM mydb.students"))
@@ -51,7 +45,6 @@ void Loginwindow::on_pushButton_clicked()
 
         }
       }
-    Teacher T;
     if(query.exec("Select * From mydb.instructors"))
     {
         while (query.next())
@@ -59,17 +52,7 @@ void Loginwindow::on_pushButton_clicked()
             if(query.value(3).toString() == username && query.value(4).toString() == pwd)
             {
 
-              this->hide();
-               // Teacher *T=new
-              //  Teacher(query.value(0).toString(),query.value(1).toString(),query.value(2).toString());
-               //Teacher *T=new Teacher(query.value(0).toString(),query.value(1).toString(),query.value(2).toString());
-//                Teacher *T=new Teacher(this);
 
-                T.ID=query.value(0).toString();
-                T.FirstName=query.value(1).toString();
-                T.LastName=query.value(2).toString();
-                T.GetClasses(T.ID);
-                T.show();
             }
         }
 
@@ -81,3 +64,5 @@ void Loginwindow::on_pushButton_clicked()
         ui->LoginUserName->clear();
     }
 }
+
+

@@ -12,13 +12,15 @@ class Loginwindow : public QMainWindow
     Q_OBJECT
 
 public:
-    QString static mID,mFirstName,mLastName;
+    QString ID,FirstName,LastName;
 
     explicit Loginwindow(QWidget *parent = 0);
     ~Loginwindow();
 
 private slots:
     void on_pushButton_clicked();
+
+
 
 private:
     Ui::Loginwindow *ui;
