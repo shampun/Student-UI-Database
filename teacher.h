@@ -33,10 +33,12 @@ public:
     void AddGrade(QString StudentID,int CourseID);
     QStringList ShowStudents(Teacher Teach);
     QStringList ShowGrades(QString CourseID, Teacher teach);
-    QStringList GetClasses(Teacher Teach);
+    QStringList GetClasses(QString ID);
     QString FindStudent(int ID);
 private slots:
     void on_pushButton_clicked();
+
+    void on_classes_clicked();
 
 private:
     Ui::Teacher *ui;

@@ -8,11 +8,14 @@
 #include <QMessageBox>
 #include<qstring.h>
 
+  QStringList Classes;
+
 Teacher::Teacher(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Teacher)
 {
     ui->setupUi(this);
+
 }
 
 Teacher::~Teacher()
@@ -253,16 +256,16 @@ QStringList Teacher::ShowStudents(Teacher Teach)
    return Students;
 
 }
-QStringList Teacher::GetClasses(Teacher Teach)
+QStringList Teacher::GetClasses(QString ID)
 {
     QString line,line2;
-    QStringList Classes;
+
     QSqlQuery query;
     if (query.exec("SELECT * FROM mydb.courses"))
     {
       while(query.next())
       {
-        if(query.value(7)==Teach.ID)
+        if(query.value(7)==ID)
         {
          line=query.value(1).toString();
          if(line==line2)
@@ -317,4 +320,9 @@ void Teacher::on_pushButton_clicked()
 
     }
     ui->TeacherWidget->addItem(line);
+}
+
+void Teacher::on_classes_clicked()
+{
+    ui->listWidget_2->addItems(Classes);
 }
