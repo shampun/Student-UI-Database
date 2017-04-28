@@ -9,17 +9,28 @@
 #include<qstring.h>
 #include <QListWidgetItem>
 #include <QListWidget>
-
-
   QStringList Classes;
-   QStringList Students;
 
 Teacher::Teacher(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Teacher)
 {
     ui->setupUi(this);
-    ui->TeachWidget->addItems(Classes);
+
+    qDebug()<<this->FirstName;
+    qDebug()<<this->LastName;
+
+}
+Teacher::Teacher(QString mID, QString mFirstName, QString mLastName, QWidget *parent):
+    QMainWindow(parent),
+    ui(new Ui::Teacher)
+{
+    ui->setupUi(this);
+    ID=mID;
+    FirstName=mFirstName;
+    LastName=mLastName;
+    GetClasses(this);
+
 }
 
 Teacher::~Teacher()
@@ -131,7 +142,7 @@ void Teacher::DelGrade(QString CourseID, QString StudentID,QString Testnum)
 
     }
 }
-void Teacher::AddStudent(QString CourseID,QString CourseName,Teacher teach)
+void Teacher::AddStudent(QString CourseID,QString CourseName,Teacher *teach)
 {
     QString Fname=  QInputDialog::getText(this,"Create Student","FirstName");
     QString Lname=  QInputDialog::getText(this,"Create Student","LastName");
@@ -176,9 +187,9 @@ void Teacher::AddStudent(QString CourseID,QString CourseName,Teacher teach)
       query.bindValue(2,Fname);
       query.bindValue(3,Lname);
       query.bindValue(4,newID);
-      query.bindValue(5,teach.FirstName);
-      query.bindValue(6,teach.LastName);
-      query.bindValue(7,teach.ID);
+      query.bindValue(5,teach->FirstName);
+      query.bindValue(6,teach->LastName);
+      query.bindValue(7,teach->ID);
       query.exec();
 
 }
@@ -243,14 +254,34 @@ QStringList Teacher::ShowGrades(QString CourseID,Teacher teach)
     return mGrades;
 
 }
-QStringList Teacher::ShowStudents(QString CourseName)
+QString Teacher::GetCourseID()
 {
 
+    QListWidgetItem *itm = ui->TeacherWidget->currentItem();
+    QString Selected = itm->text();
+    QSqlQuery query;
+    QString courseID="";
+
+    query.exec("SELECT CourseName,idCourses,idStudents,StuFName,StuLName FROM mydb.courses");
+    while(query.next())
+    {
+        //Find course ID and students in that class
+        if(query.value(0).toString()==Selected)
+        {
+            courseID=query.value(1).toString();
+        }
+    }
+    return courseID;
+
+}
+void Teacher::ShowStudents(Teacher *Teach)
+{
+    QStringList Students;
     QSqlQuery query;
     query.exec("SELECT * FROM mydb.courses;");
     while(query.next())
     {
-        if(query.value(1)==CourseName)
+        if(query.value(7)==Teach->ID)
         {
             QString line=query.value(2).toString()+" "+query.value(3).toString();
             Students.append(line);
@@ -258,10 +289,10 @@ QStringList Teacher::ShowStudents(QString CourseName)
         }
     }
     ui->listWidget_2->addItems(Students);
-   return Students;
+
 
 }
-QStringList Teacher::GetClasses(QString ID)
+void Teacher::GetClasses(Teacher *Teach)
 {
     QString line,line2;
 
@@ -270,7 +301,7 @@ QStringList Teacher::GetClasses(QString ID)
     {
       while(query.next())
       {
-        if(query.value(7)==ID)
+        if(query.value(7)==Teach->ID)
         {
          line=query.value(1).toString();
          if(line==line2)
@@ -287,12 +318,19 @@ QStringList Teacher::GetClasses(QString ID)
       }
 
     }
-    return Classes;
+     ui->TeacherWidget->addItems(Classes);
+     if (ui->listWidget_2->count() > 0)
+             {
+          ui->listWidget_2->item(0)->setSelected(true);
+          ui->listWidget_2->setFocus();
+
+     }
+
 }
 
 void Teacher::on_pushButton_clicked()
 {
-
+      ui->Classeslbl->setText("AJ IS the man");
           QString line;
             QString line2;
     QSqlQuery query;
@@ -314,7 +352,7 @@ void Teacher::on_pushButton_clicked()
                     qDebug()<<line;
 
 
-                    ui->TeachWidget->addItem(line);
+                    ui->TeacherWidget->addItem(line);
                     ui->listWidget_2->addItem(line);
                     //ui->TeacherWidget->addItems(line);
                 }
@@ -324,27 +362,70 @@ void Teacher::on_pushButton_clicked()
         }
 
     }
-    ui->TeachWidget->addItem(line);
+    ui->TeacherWidget->addItem(line);
+}
+QString Teacher::GetStudentID(QString name)
+{
+    QSqlQuery query;
+    QString id;
+    query.exec("SELECT * FROM mydb.students;");
+    while(query.next())
+    {
+       if(query.value(1)==name)
+       {
+           id=query.value(0).toString();
+       }
+    }
+    return id;
+
 }
 
-void Teacher::on_classes_clicked()
+void Teacher::on_TeacherWidget_itemClicked(QListWidgetItem *item)
 {
+    if(ui->listWidget_2->count()==0)
+    {
+           ShowStudents(this);
+    }
+
 
 }
 
-void Teacher::on_Mclasses_clicked()
+void Teacher::on_AddButton_clicked()
 {
-     ui->TeachWidget->addItems(Classes);
-}
+     QListWidgetItem *itm = ui->TeacherWidget->currentItem();
 
-void Teacher::on_TeachWidget_itemClicked(QListWidgetItem *item)
-{
-   QString name=item->text();
-   ShowStudents(name);
+     AddStudent(GetCourseID(),itm->text(),this);
 
 }
 
-void Teacher::on_pushButton_2_clicked()
+void Teacher::on_RemoveStudent_clicked()
 {
+    QListWidgetItem *itm = ui->listWidget_2->currentItem();
+    QString selected= itm->text();
+     QStringList list= selected.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+    RemoveStudent(GetCourseID(),list[0]);
+}
+
+void Teacher::on_AddGrade_clicked()
+{
+    QListWidgetItem *itm = ui->listWidget_2->currentItem();
+    QString selected= itm->text();
+     QStringList list= selected.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+     QString id=GetCourseID();
+    AddGrade(GetStudentID(list[0]),id.toInt());
+}
+
+void Teacher::on_RemoveGrade_clicked()
+{
+ // DelGrade();
+}
+
+void Teacher::on_viewGrades_clicked()
+{
+    QListWidgetItem *itm = ui->listWidget_2->currentItem();
+    QListWidgetItem *Teachitm = ui->TeacherWidget->currentItem();
+
+
+
 
 }

@@ -3,6 +3,7 @@
 #include <qlist.h>
 #include <QMainWindow>
 #include <QList>
+#include <QString>
 #include <QListWidgetItem>
 #include <QListWidget>
 namespace Ui {
@@ -19,37 +20,47 @@ public:
     QString LastName;
 
 
-    Teacher(QString mID,QString mFirstName,QString mLastName)
-    {
-        ID=mID;
-        FirstName=mFirstName;
-        LastName=mLastName;
+   explicit Teacher(QString mID,QString mFirstName,QString mLastName,QWidget *parent = 0);
+//    {
 
-    }
+//        ID=mID;
+//        FirstName=mFirstName;
+//        LastName=mLastName;
+
+
+//    }
     explicit Teacher(QWidget *parent = 0);
     ~Teacher();
 
-    void AddStudent(QString CourseID,QString CourseName,Teacher teach);
+    void AddStudent(QString CourseID, QString CourseName, Teacher *teach);
     void RemoveStudent(QString CourseID, QString StudFname);
     void DelGrade(QString CourseID, QString StudentID, QString Testnum);
     void AddGrade(QString StudentID,int CourseID);
-    QStringList ShowStudents(QString CourseName);
+    void ShowStudents(Teacher *Teach);
+    QString GetCourseID();
     QStringList ShowGrades(QString CourseID, Teacher teach);
-    QStringList GetClasses(QString ID);
+    void GetClasses(Teacher *Teach);
     QString FindStudent(int ID);
+    QString GetStudentID(QString name);
 private slots:
     void on_pushButton_clicked();
 
-    void on_classes_clicked();
 
-    void on_Mclasses_clicked();
 
-    void on_TeachWidget_itemClicked(QListWidgetItem *item);
+    void on_TeacherWidget_itemClicked(QListWidgetItem *item);
 
-    void on_pushButton_2_clicked();
+    void on_AddButton_clicked();
+
+    void on_RemoveStudent_clicked();
+
+    void on_AddGrade_clicked();
+
+    void on_RemoveGrade_clicked();
+
+    void on_viewGrades_clicked();
 
 private:
-    Ui::Teacher *ui;
+ Ui::Teacher *ui;
 
 
 };
