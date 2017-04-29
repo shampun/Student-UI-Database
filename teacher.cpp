@@ -121,36 +121,18 @@ void Teacher::DelGrade(QString CourseID, QString StudentID,QString TestNum,QStri
     QSqlQuery query;
     if(TestNum=="1")
     {
-    query.prepare("INSERT INTO mydb.grades(Test1,Courses_has_Students_Courses_idCourses,Courses_has_Students_Students_idStudents)VALUES(?,?,?)");
-        if(query.isValid())
-           {
-             query.addBindValue(testScore.toInt());
-             query.addBindValue(CourseID.toInt());
-             query.addBindValue(StudentID);
-           }
-       else if(QMessageBox::question(this,"Grade exist","Entry exist would you like to change it",QMessageBox::Yes |QMessageBox::No))
-         {
-           query.prepare("update mydb.grades set Test1=? Where Courses_has_Students_Students_idStudents=?");
+      query.prepare("update mydb.grades set Test1=? Where Courses_has_Students_Students_idStudents=?");
            query.bindValue(0,testScore.toInt());
            query.bindValue(1,StudentID);
-          }
+        }
            else
            {
            QMessageBox::information(this,"No entries added","No entries added");
             }
 
-    }
+
     if(TestNum=="2")
     {
-    query.prepare("INSERT INTO mydb.grades(Test2,Courses_has_Students_Courses_idCourses,Courses_has_Students_Students_idStudents)VALUES(?,?,?)");
-    if(query.isValid())
-    {
-            query.addBindValue(testScore.toInt());
-            query.addBindValue(CourseID.toInt());
-            query.addBindValue(StudentID);
-      }
-        else if(QMessageBox::question(this,"Grade exist","Entry exist would you like to change it",QMessageBox::Yes |QMessageBox::No))
-        {
             query.prepare("update mydb.grades set Test2=? Where Courses_has_Students_Students_idStudents=?");
             query.bindValue(0,testScore.toInt());
             query.bindValue(1,StudentID);
@@ -159,19 +141,10 @@ void Teacher::DelGrade(QString CourseID, QString StudentID,QString TestNum,QStri
         {
             QMessageBox::information(this,"No entries added","No entries added");
         }
-    }
+
     if(TestNum=="3")
     {
-   query.prepare("INSERT INTO mydb.grades(Test3,Courses_has_Students_Courses_idCourses,Courses_has_Students_Students_idStudents)VALUES(?,?,?)");
-      if(query.isValid())
-      {
-           query.addBindValue(testScore.toInt());
-           query.addBindValue(CourseID.toInt());
-           query.addBindValue(StudentID);
-       }
-       else if(QMessageBox::question(this,"Grade exist","Entry exist would you like to change it",QMessageBox::Yes |QMessageBox::No))
-       {
-           query.prepare("update mydb.grades set Test3=? Where Courses_has_Students_Students_idStudents=?");
+       query.prepare("update mydb.grades set Test3=? Where Courses_has_Students_Students_idStudents=?");
            query.bindValue(0,testScore.toInt());
            query.bindValue(1,StudentID);
        }
@@ -180,11 +153,7 @@ void Teacher::DelGrade(QString CourseID, QString StudentID,QString TestNum,QStri
            QMessageBox::information(this,"No entries added","no entries added");
        }
 
-    }
-    else
-    {
-        QMessageBox::information(this,"No entries added","no entries added");
-    }
+
 
 }
 void Teacher::GetAllStudents()
@@ -222,8 +191,9 @@ void Teacher::RemoveStudent(QString CourseID, QString StudFname)
 {
     QSqlQuery query;
 QString line=GetStudentID(StudFname);
-   query.prepare("delete from mydb.courses Where idStudents=?,idCourses=?");
-   query.bindValue(0,GetStudentID(StudFname));
+   query.prepare("delete from mydb.courses Where idStudents =?,idCourses = ? ");
+
+   query.bindValue(0,line);
    query.bindValue(1,CourseID);
    query.exec();
 }
@@ -448,20 +418,36 @@ void Teacher::on_RemoveStudent_clicked()
 void Teacher::on_AddGrade_clicked()
 {
     QListWidgetItem *itm = ui->listWidget_2->currentItem();
+    if(itm=NULL)
+    {
+        QMessageBox::information(this,"Warning","Please Choose student");
+        return;
+    }
+    else
+    {
     QString selected= itm->text();
      QStringList list= selected.split(QRegExp("\\s+"), QString::SkipEmptyParts);
      QString id=GetCourseID();
     AddGrade(GetStudentID(list[0]),id.toInt());
+    }
 }
 
 void Teacher::on_RemoveGrade_clicked()
 {
    QListWidgetItem *itm = ui->listWidget_2->currentItem();
+   if(itm=NULL)
+   {
+       QMessageBox::information(this,"Warning","Please Choose student");
+       return;
+   }
+   else
+   {
    QString mStudent=itm->text();
    QStringList list= mStudent.split(QRegExp("\\s+"), QString::SkipEmptyParts);
    QString testScore=  QInputDialog::getText(this,"Tests","Enter test Score");
   QString TestNum=  QInputDialog::getText(this,"Tests","Test Number");
   DelGrade(GetCourseID(),list[0],TestNum,testScore);
+   }
 }
 
 void Teacher::on_viewGrades_clicked()
