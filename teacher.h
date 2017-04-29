@@ -34,11 +34,13 @@ public:
 
     void AddStudent(QString CourseID, QString CourseName, Teacher *teach);
     void RemoveStudent(QString CourseID, QString StudFname);
-    void DelGrade(QString CourseID, QString StudentID, QString Testnum);
+    void GetAllStudents();
+    void DelGrade(QString CourseID, QString StudentID, QString TestNum, QString testScore);
     void AddGrade(QString StudentID,int CourseID);
     void ShowStudents(Teacher *Teach);
+    void ShowStudentsGrades(QString StudentID, QString CourseID);
     QString GetCourseID();
-    QStringList ShowGrades(QString CourseID, Teacher teach);
+    QStringList ShowGrades(QString CourseID);
     void GetClasses(Teacher *Teach);
     QString FindStudent(int ID);
     QString GetStudentID(QString name);
@@ -58,6 +60,10 @@ private slots:
     void on_RemoveGrade_clicked();
 
     void on_viewGrades_clicked();
+
+    void on_listWidget_2_itemClicked(QListWidgetItem *item);
+
+    void on_listWidget_2_itemDoubleClicked(QListWidgetItem *item);
 
 private:
  Ui::Teacher *ui;
@@ -84,6 +90,7 @@ class Student
             FirstName=FName;
             LastName=LName;
         }
+        QString show();
     ~Student();
 
 };

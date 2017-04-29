@@ -9,7 +9,10 @@
 #include<qstring.h>
 #include <QListWidgetItem>
 #include <QListWidget>
-  QStringList Classes;
+
+QStringList Classes;
+QList<Student*> students;
+QString Selected="";
 
 Teacher::Teacher(QWidget *parent) :
     QMainWindow(parent),
@@ -113,102 +116,115 @@ void Teacher::AddGrade(QString StudentID, int CourseID)
 
     query.exec();
 }
-void Teacher::DelGrade(QString CourseID, QString StudentID,QString Testnum)
+void Teacher::DelGrade(QString CourseID, QString StudentID,QString TestNum,QString testScore)
 {
     QSqlQuery query;
-    if(Testnum=="Test1")
+    if(TestNum=="1")
     {
-        query.prepare("update mydb.grades set test1=?, Where Courses_has_Students_Students_idStudents=?,Courses_has_Students_Courses_idCourses=?");
-        query.bindValue(0,NULL);
-        query.bindValue(1,StudentID);
-        query.bindValue(2,CourseID);
-        query.exec();
-    }
-    if(Testnum=="Test2")
-    {
-        query.prepare("update mydb.grades set test2=?, Where Courses_has_Students_Students_idStudents=?,Courses_has_Students_Courses_idCourses=?");
-        query.bindValue(0,NULL);
-        query.bindValue(1,StudentID);
-         query.bindValue(2,CourseID);
-        query.exec();
-    }
-    if(Testnum=="Test3")
-    {
-        query.prepare("update mydb.grades set test3=?, Where Courses_has_Students_Students_idStudents=?,Courses_has_Students_Courses_idCourses=?");
-        query.bindValue(0,NULL);
-        query.bindValue(1,StudentID);
-         query.bindValue(2,CourseID);
-        query.exec();
+    query.prepare("INSERT INTO mydb.grades(Test1,Courses_has_Students_Courses_idCourses,Courses_has_Students_Students_idStudents)VALUES(?,?,?)");
+        if(query.isValid())
+           {
+             query.addBindValue(testScore.toInt());
+             query.addBindValue(CourseID.toInt());
+             query.addBindValue(StudentID);
+           }
+       else if(QMessageBox::question(this,"Grade exist","Entry exist would you like to change it",QMessageBox::Yes |QMessageBox::No))
+         {
+           query.prepare("update mydb.grades set Test1=? Where Courses_has_Students_Students_idStudents=?");
+           query.bindValue(0,testScore.toInt());
+           query.bindValue(1,StudentID);
+          }
+           else
+           {
+           QMessageBox::information(this,"No entries added","No entries added");
+            }
 
     }
+    if(TestNum=="2")
+    {
+    query.prepare("INSERT INTO mydb.grades(Test2,Courses_has_Students_Courses_idCourses,Courses_has_Students_Students_idStudents)VALUES(?,?,?)");
+    if(query.isValid())
+    {
+            query.addBindValue(testScore.toInt());
+            query.addBindValue(CourseID.toInt());
+            query.addBindValue(StudentID);
+      }
+        else if(QMessageBox::question(this,"Grade exist","Entry exist would you like to change it",QMessageBox::Yes |QMessageBox::No))
+        {
+            query.prepare("update mydb.grades set Test2=? Where Courses_has_Students_Students_idStudents=?");
+            query.bindValue(0,testScore.toInt());
+            query.bindValue(1,StudentID);
+        }
+        else
+        {
+            QMessageBox::information(this,"No entries added","No entries added");
+        }
+    }
+    if(TestNum=="3")
+    {
+   query.prepare("INSERT INTO mydb.grades(Test3,Courses_has_Students_Courses_idCourses,Courses_has_Students_Students_idStudents)VALUES(?,?,?)");
+      if(query.isValid())
+      {
+           query.addBindValue(testScore.toInt());
+           query.addBindValue(CourseID.toInt());
+           query.addBindValue(StudentID);
+       }
+       else if(QMessageBox::question(this,"Grade exist","Entry exist would you like to change it",QMessageBox::Yes |QMessageBox::No))
+       {
+           query.prepare("update mydb.grades set Test3=? Where Courses_has_Students_Students_idStudents=?");
+           query.bindValue(0,testScore.toInt());
+           query.bindValue(1,StudentID);
+       }
+       else
+       {
+           QMessageBox::information(this,"No entries added","no entries added");
+       }
+
+    }
+    else
+    {
+        QMessageBox::information(this,"No entries added","no entries added");
+    }
+
+}
+void Teacher::GetAllStudents()
+{
+    QSqlQuery query;
+
+    query.exec("SELECT * FROM mydb.students;");
+    while(query.next())
+    {
+     students.append(new Student(query.value(0).toString(),query.value(1).toString(),query.value(2).toString()));
+
+    }
+
+}
+QString Student::show()
+{
+    QString line;
+    line=this->ID+" "+this->FirstName+" "+this->LastName;
+    return line;
+
 }
 void Teacher::AddStudent(QString CourseID,QString CourseName,Teacher *teach)
 {
-    QString Fname=  QInputDialog::getText(this,"Create Student","FirstName");
-    QString Lname=  QInputDialog::getText(this,"Create Student","LastName");
-    //created an iD for the student loop
-    bool ID=false;
-    int newID;
-       QSqlQuery query;
-      query.exec("Select idStudents From mydb.students");
-      for(int i=1;i<50;i++)
-      {
-          if(!ID)
-          {
-               while(query.next())
-              {
-
-                  QString str= QString::number(i);
-                  if(query.value(0).toInt()==i)
-                  {
-                     break;
-                  }
-                  else
-                      {
-                          newID=i;
-                          ID=true;
-                          break;
-                      }
-               }
-
-          }
-          else
-              break;
-
-      }
-
-      //Insert new student into class
-      query.prepare("INSERT INTO mydb.courses(idCourses,CourseName,StuFName,StuLName,idStudents,InstrFName,InstrLName,Instructors_idInstructors)"
-                "VALUES(?,?,?,?,?,?,?,?)");
+    ui->listWidget_2->clear();
+    for(int i=0;i<students.length();i++)
+    {
+        ui->listWidget_2->addItem(students[i]->show());
+    }
+    QMessageBox::information(this,"ADDing a Student","Choose the student you wish to add");
 
 
-      query.bindValue(0,CourseID);
-      query.bindValue(1,CourseName);
-      query.bindValue(2,Fname);
-      query.bindValue(3,Lname);
-      query.bindValue(4,newID);
-      query.bindValue(5,teach->FirstName);
-      query.bindValue(6,teach->LastName);
-      query.bindValue(7,teach->ID);
-      query.exec();
 
 }
 void Teacher::RemoveStudent(QString CourseID, QString StudFname)
 {
     QSqlQuery query;
-    int StudentID;
-    query.exec("SELECT idStudents,StuFName,StuLName,CourseName,InstrLName FROM mydb.courses");
-    while(query.next())
-    {
-        if(query.value(1).toString()==StudFname)
-        {
-            StudentID=query.value(0).toInt();
-            break;
-        }
-      }
+QString line=GetStudentID(StudFname);
    query.prepare("delete from mydb.courses Where idStudents=?,idCourses=?");
-   query.bindValue(0,StudentID);
-   query.bindValue(1,CourseID.toInt());
+   query.bindValue(0,GetStudentID(StudFname));
+   query.bindValue(1,CourseID);
    query.exec();
 }
 QString Teacher::FindStudent(int ID)
@@ -228,7 +244,7 @@ QString Teacher::FindStudent(int ID)
     return "Student has no ID";
 
 }
-QStringList Teacher::ShowGrades(QString CourseID,Teacher teach)
+QStringList Teacher::ShowGrades(QString CourseID)
 {
     QStringList mGrades;
     QSqlQuery query;
@@ -237,12 +253,11 @@ QStringList Teacher::ShowGrades(QString CourseID,Teacher teach)
     while(query.next())
     {
 
-        if(CourseID==query.value(4).toInt())
+        if(CourseID==query.value(4).toString())
         {
-     QString mStudent= FindStudent(query.value(4).toInt());
-             mStudent="Test1"+query.value(0).toString();
-             mStudent=+" Test2 "+query.value(1).toString();
-            mStudent=+" Test3 "+query.value(2).toString();
+     QString mStudent= FindStudent(query.value(5).toInt())+" Test 1 "+query.value(0).toString()+" Test2 "+query.value(1).toString()+" Test3 "+query.value(2).toString();
+
+
 
           mGrades.append(mStudent);
 
@@ -269,6 +284,7 @@ QString Teacher::GetCourseID()
         if(query.value(0).toString()==Selected)
         {
             courseID=query.value(1).toString();
+            break;
         }
     }
     return courseID;
@@ -327,7 +343,27 @@ void Teacher::GetClasses(Teacher *Teach)
      }
 
 }
+void Teacher::ShowStudentsGrades(QString StudentID, QString CourseID)
+{
 
+      ui->listWidget_2->clear();
+    QSqlQuery query;
+    QStringList line;
+    QString grades;
+    query.exec("SELECT * FROM mydb.grades;");
+    while(query.next())
+    {
+            if(CourseID==query.value(4)&&StudentID==query.value(5))
+            {
+                grades=FindStudent(StudentID.toInt())+" Test1 "+query.value(0).toString()+" Test2 "+query.value(1).toString()+" Test3 "+query.value(2).toString();
+
+                    break;
+            }
+
+    }
+    line.append(grades);
+        ui->listWidget_2->addItems(line);
+}
 void Teacher::on_pushButton_clicked()
 {
       ui->Classeslbl->setText("AJ IS the man");
@@ -381,7 +417,8 @@ QString Teacher::GetStudentID(QString name)
 }
 
 void Teacher::on_TeacherWidget_itemClicked(QListWidgetItem *item)
-{
+{   ui->listWidget_2->clear();
+    Selected=item->text();
     if(ui->listWidget_2->count()==0)
     {
            ShowStudents(this);
@@ -392,9 +429,11 @@ void Teacher::on_TeacherWidget_itemClicked(QListWidgetItem *item)
 
 void Teacher::on_AddButton_clicked()
 {
+    GetAllStudents();
      QListWidgetItem *itm = ui->TeacherWidget->currentItem();
 
      AddStudent(GetCourseID(),itm->text(),this);
+     QMessageBox::information(this,"How to choose","Double check on the student you wish to add");
 
 }
 
@@ -417,15 +456,92 @@ void Teacher::on_AddGrade_clicked()
 
 void Teacher::on_RemoveGrade_clicked()
 {
- // DelGrade();
+   QListWidgetItem *itm = ui->listWidget_2->currentItem();
+   QString mStudent=itm->text();
+   QStringList list= mStudent.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+   QString testScore=  QInputDialog::getText(this,"Tests","Enter test Score");
+  QString TestNum=  QInputDialog::getText(this,"Tests","Test Number");
+  DelGrade(GetCourseID(),list[0],TestNum,testScore);
 }
 
 void Teacher::on_viewGrades_clicked()
 {
+    QStringList Grades;
     QListWidgetItem *itm = ui->listWidget_2->currentItem();
-    QListWidgetItem *Teachitm = ui->TeacherWidget->currentItem();
+    QListWidgetItem *Titm = ui->TeacherWidget->currentItem();
+     QString selected,selected1;
+    if(itm==NULL)
+      {
+
+      }
+      else
+        {
+          selected= itm->text();
+        }
+    if(Titm==NULL)
+    {
+
+    }
+    else
+    {
+        selected1= Titm->text();
+    }
+
+    ui->listWidget_2->clear();
+    QStringList list= Selected.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+         if(Selected == "")
+         {
+            //No one Selected
+         }
+         //Everyone in the class grades will be shown
+         else if(Selected==selected1)
+         {
+        Grades=ShowGrades(GetCourseID());
+        ui->listWidget_2->addItems(Grades);
+         }
+         //Individual student will show grades
+         else if(Selected==selected)
+         {
+             ShowStudentsGrades(GetStudentID(list[0]),GetCourseID());
+         }
+
+}
+
+void Teacher::on_listWidget_2_itemClicked(QListWidgetItem *item)
+{
+    Selected=item->text();
+}
+
+void Teacher::on_listWidget_2_itemDoubleClicked(QListWidgetItem *item)
+{
+
+           QListWidgetItem *itm=ui->TeacherWidget->currentItem();
+            QString McourseName=itm->text();
+     QSqlQuery query;
+  QListWidgetItem *itm2=ui->listWidget_2->currentItem();
+   QString mstudent=itm2->text();
+      QStringList list= mstudent.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+   if( QMessageBox::question(this,"Adding student","is this the student",QMessageBox::Yes,QMessageBox::No))
+   {
+       // Insert new student into class
+           query.prepare("INSERT INTO mydb.courses(idCourses,CourseName,StuFName,StuLName,idStudents,InstrFName,InstrLName,Instructors_idInstructors)"
+                     "VALUES(?,?,?,?,?,?,?,?)");
 
 
-
+           query.bindValue(0,GetCourseID());
+           query.bindValue(1,McourseName);
+           query.bindValue(2,list[1]);
+           query.bindValue(3,list[2]);
+           query.bindValue(4,list[0]);
+           query.bindValue(5,this->FirstName);
+           query.bindValue(6,this->LastName);
+           query.bindValue(7,this->ID);
+           query.exec();
+           ui->listWidget_2->clear();
+   }
+   else
+   {
+    QMessageBox::information(this,"Error","Unable to add Student");
+   }
 
 }
