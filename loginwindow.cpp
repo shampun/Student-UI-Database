@@ -20,58 +20,53 @@ Loginwindow::~Loginwindow()
 {
     delete ui;
 }
-
-void Loginwindow::on_pushButton_clicked()
+void Loginwindow::on_LoginButton_clicked()
 {
-//QString username = ui->LoginUserName->text();
-// QString   pwd = ui->LoginPassword->text();
+    //QString username = ui->LoginUserName->text();
+    // QString   pwd = ui->LoginPassword->text();
 
-    QString  username = "cmartinez0";
-    QString  pwd = "z8r2Py";
-    QSqlQuery query;
-    SIMS student;
-    if (query.exec("SELECT * FROM mydb.students"))
-    {
-        while (query.next())
+        QString  username = "cmartinez0";
+        QString  pwd = "z8r2Py";
+        QSqlQuery query;
+
+        if (query.exec("SELECT * FROM mydb.students"))
         {
-            if(query.value(3).toString() == username && query.value(4).toString() == pwd)
+            while (query.next())
             {
+                if(query.value(3).toString() == username && query.value(4).toString() == pwd)
+                {
 
-                this->hide();
-               SIMS *s=new SIMS(this);
-                  s->show();
-                  student.id = query.value(0).toString();
-                   student.fname = query.value(1).toString();
-                   student.lname = query.value(2).toString();
-                  student.GPA = query.value(5).toString();
-                  student.usr=username;
-                  student.pwd=pwd;
-                  student.getClass();
+                    this->hide();
+                   SIMS *s=new SIMS(query.value(0).toString(),query.value(1).toString(),query.value(2).toString());
+                      s->show();
+
+                        break;
+
+                }
+
+            }
+          }
+
+        if(query.exec("Select * From mydb.instructors"))
+        {
+            while (query.next())
+            {
+                if(query.value(3).toString() == username && query.value(4).toString() == pwd)
+                {
+                    this->hide();
+                    Teacher *Teach=new Teacher(query.value(0).toString(),query.value(1).toString(),query.value(2).toString());
+                      Teach->show();
                     break;
-
+                }
             }
 
         }
-      }
-
-    if(query.exec("Select * From mydb.instructors"))
-    {
-        while (query.next())
+        else
         {
-            if(query.value(3).toString() == username && query.value(4).toString() == pwd)
-            {
-                this->hide();
-                Teacher *Teach=new Teacher(query.value(0).toString(),query.value(1).toString(),query.value(2).toString());
-                  Teach->show();
-                break;
-            }
+            cout << "Can't find table!!" << endl;
+            ui->LoginPassword->clear();
+            ui->LoginUserName->clear();
         }
+  }
 
-    }
-    else
-    {
-        cout << "Can't find table!!" << endl;
-        ui->LoginPassword->clear();
-        ui->LoginUserName->clear();
-    }
-}
+

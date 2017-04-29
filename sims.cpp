@@ -11,134 +11,21 @@ SIMS::SIMS(QWidget *parent) :
 {
     ui->setupUi(this);
 
+}
+SIMS::SIMS(QString mID, QString mFirstName, QString mLastName, QWidget *parent):
+    QMainWindow(parent),
+    ui(new Ui::SIMS)
+{
+    ui->setupUi(this);
+    //Add startup code
 
-    ui->stackedWidget->setCurrentIndex(1);
-    ui->StudLoginStatusLabel->clear();
-    //usr = ui->StudUsrnLE->text();
-   // pwd = ui->StudPwdLE->text();
-
-    QSqlQuery query;
-    if (query.exec("SELECT * FROM mydb.students"))
-    {
-        while (query.next())
-        {
-            if(query.value(3).toString() == usr && query.value(4).toString() == pwd)
-            {
-//                id = query.value(0).toString();
-//                fname = query.value(1).toString();
-//                lname = query.value(2).toString();
-//                GPA = query.value(5).toString();
-//                qDebug () << usr << pwd << id << fname << lname << GPA;
-//                ui->stackedWidget->setCurrentIndex(1);
-//                ui->TheStudentName->setText(fname+" "+lname);
-//                ui->TheStudentID->setText(id);
-//                //getClass ();
-
-            }
-
-        }
-        if (GPA == "Not Available")
-               ui->StudLoginStatusLabel->setText("Wrong cridentials! Try again!");
-     }
-    if(query.exec("Select * From mydb.instructors"))
-    {
-        while (query.next())
-        {
-            if(query.value(3).toString() == usr && query.value(4).toString() == pwd)
-            {
-
-
-            }
-        }
-
-    }
-    else
-    {
-        cout << "Can't find table!!" << endl;
-        //ui->StudUsrnLE->clear();
-        //ui->StudPwdLE->clear();
-    }
 
 
 }
-
 SIMS::~SIMS()
 {
-    delete ui;
-
+delete ui;
 }
-
-void SIMS::on_StudLoginBtn_clicked()
-{
-    bool found = false;
-    ui->StudLoginStatusLabel->clear();
-    usr = ui->StudUsrnLE->text();
-    pwd = ui->StudPwdLE->text();
-
-    QSqlQuery query;
-    if (query.exec("SELECT * FROM mydb.students"))
-    {
-        while (query.next())
-        {
-            if(query.value(3).toString() == usr && query.value(4).toString() == pwd)
-            {
-                id = query.value(0).toString();
-                fname = query.value(1).toString();
-                lname = query.value(2).toString();
-                GPA = query.value(5).toString();
-                qDebug () << usr << pwd << id << fname << lname << GPA;
-                ui->stackedWidget->setCurrentIndex(1);
-                ui->TheStudentName->setText(fname+" "+lname);
-                ui->TheStudentID->setText(id);
-                getClass ();
-                found = true;
-
-            }
-
-        }
-
-    }
-    if (query.exec("SELECT * FROM mydb.instructors"))
-    {
-        while (query.next())
-        {
-            if(query.value(3).toString() == usr && query.value(4).toString() == pwd)
-            {
-
-                id = query.value(0).toString();
-                qDebug () << usr << pwd << id;
-                cout << "User found!" << endl;
-                found = true;
-
-            }
-
-        }
-
-    }
-    if (query.exec("SELECT * FROM mydb.admins"))
-    {
-        while (query.next())
-        {
-            if(query.value(1).toString() == usr && query.value(2).toString() == pwd)
-            {
-
-                id = query.value(0).toString();
-                qDebug () << usr << pwd << id;
-                cout << "User found!" << endl;
-                found = true;
-
-            }
-
-        }
-        if(found == false)
-              ui->StudLoginStatusLabel->setText("Wrong cridentials! Try again!");
-    }
-    else
-        cout << "Can't find table!!" << endl;
-    ui->StudUsrnLE->clear();
-    ui->StudPwdLE->clear();
-}
-
 void SIMS::on_pushButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);

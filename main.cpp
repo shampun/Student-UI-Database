@@ -16,12 +16,12 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     //SIMS w;
-    Teacher T;
+   // Teacher T;
     Loginwindow L;
-    Admin R;
+    //Admin R;
 
     db= QSqlDatabase::addDatabase("QODBC");
-    db.setDatabaseName("DRIVER={MySQL ODBC 5.3 Unicode Driver};SERVER=LOCALHOST;Database=mydb;Uid=root;Password=comodo25PAnda;");
+    db.setDatabaseName("DRIVER={MySQL ODBC 5.3 Unicode Driver};SERVER=LOCALHOST;Database=mydb;Uid=root;Password=sandman03;");
 
     if(db.open())
     {

@@ -191,7 +191,7 @@ void Teacher::RemoveStudent(QString CourseID, QString StudFname)
 {
     QSqlQuery query;
 QString line=GetStudentID(StudFname);
-   query.prepare("delete from mydb.courses Where idStudents =?,idCourses = ? ");
+   query.prepare("delete from mydb.courses Where idStudents= ? and idCourses= ? ");
 
    query.bindValue(0,line);
    query.bindValue(1,CourseID);
@@ -418,7 +418,7 @@ void Teacher::on_RemoveStudent_clicked()
 void Teacher::on_AddGrade_clicked()
 {
     QListWidgetItem *itm = ui->listWidget_2->currentItem();
-    if(itm=NULL)
+    if(itm==NULL)
     {
         QMessageBox::information(this,"Warning","Please Choose student");
         return;
@@ -435,7 +435,7 @@ void Teacher::on_AddGrade_clicked()
 void Teacher::on_RemoveGrade_clicked()
 {
    QListWidgetItem *itm = ui->listWidget_2->currentItem();
-   if(itm=NULL)
+   if(itm==NULL)
    {
        QMessageBox::information(this,"Warning","Please Choose student");
        return;
