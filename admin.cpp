@@ -11,6 +11,8 @@
 #include <QSortFilterProxyModel>
 #include <QRegExp>
 #include <iostream>
+#include <loginwindow.h>
+
 using namespace std;
 
 
@@ -27,6 +29,8 @@ Admin::Admin(QWidget *parent) :
     Cteacher->setFilterCaseSensitivity(Qt::CaseInsensitive);
     Cstudent->setFilterCaseSensitivity(Qt::CaseInsensitive);
     CourseProxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
+
+
 }
 
 Admin::~Admin()
@@ -706,7 +710,9 @@ void Admin::on_InfoBackButn_clicked()
     ui->swidge->setCurrentIndex(0);
 }
 
+
 void Admin::on_logout_button_6_clicked()
 {
-
+   L->show();
+    close();
 }

@@ -13,6 +13,8 @@
 #include <QVariant>
 #include <QListWidgetItem>
 #include <QListWidget>
+#include <loginwindow.h>
+
 
 
 
@@ -36,6 +38,8 @@ public:
     QSqlTableModel *model;
     QSqlTableModel *CourseModel;
     QString ssname, sslast, ssid,ssusr, sspwd, ssgpa;
+    Loginwindow *L= new Loginwindow;
+
     int Tcheck = 0;
 
     explicit Admin(QWidget *parent = 0);
@@ -130,6 +134,7 @@ private:
     void BuildCourseView();
     void BuildTeacherView();
     void BuildStudentView();
+    void Logout();
 
 };
 
