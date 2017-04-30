@@ -12,6 +12,7 @@
 
 QStringList Classes;
 QList<Student*> students;
+QList<Student*> Allstudents;
 QString Selected="";
 
 Teacher::Teacher(QWidget *parent) :
@@ -19,9 +20,6 @@ Teacher::Teacher(QWidget *parent) :
     ui(new Ui::Teacher)
 {
     ui->setupUi(this);
-
-    qDebug()<<this->FirstName;
-    qDebug()<<this->LastName;
 
 }
 Teacher::Teacher(QString mID, QString mFirstName, QString mLastName, QWidget *parent):
@@ -159,12 +157,38 @@ void Teacher::DelGrade(QString CourseID, QString StudentID,QString TestNum,QStri
 void Teacher::GetAllStudents()
 {
     QSqlQuery query;
-
+    QStringList Students;
+     ui->listWidget_2->clear();
     query.exec("SELECT * FROM mydb.students;");
     while(query.next())
     {
-     students.append(new Student(query.value(0).toString(),query.value(1).toString(),query.value(2).toString()));
+        Allstudents.append(new Student(query.value(0).toString(),query.value(1).toString(),query.value(2).toString()));
 
+    }
+    QString line2="";
+    for(int i=0;i<Allstudents.length()-1;i++)
+    {
+        for(int j=0;j<students.length()-1;j++)
+        {
+
+            qDebug()<<Allstudents.size();
+            if(Allstudents[i]->FirstName!=students[j]->FirstName)
+            {
+                QString line=Allstudents[i]->FirstName+" "+Allstudents[i]->LastName;
+                if(line==line2)
+                {
+                continue;
+                }
+                else
+                {
+                    ui->listWidget_2->addItem(line);
+                    line2=line;
+                }
+
+            }
+            else
+                continue;
+        }
     }
 
 }
@@ -177,11 +201,7 @@ QString Student::show()
 }
 void Teacher::AddStudent(QString CourseID,QString CourseName,Teacher *teach)
 {
-    ui->listWidget_2->clear();
-    for(int i=0;i<students.length();i++)
-    {
-        ui->listWidget_2->addItem(students[i]->show());
-    }
+
     QMessageBox::information(this,"ADDing a Student","Choose the student you wish to add");
 
 
@@ -225,7 +245,8 @@ QStringList Teacher::ShowGrades(QString CourseID)
 
         if(CourseID==query.value(4).toString())
         {
-     QString mStudent= FindStudent(query.value(5).toInt())+" Test 1 "+query.value(0).toString()+" Test2 "+query.value(1).toString()+" Test3 "+query.value(2).toString();
+QString mStudent= FindStudent(query.value(5).toInt())+" Test 1 "+query.value(0).toString()+" Test2 "+query.value(1).toString()+" Test3 "+query.value(2).toString()
+        +" Avg "+query.value(3).toString();
 
 
 
@@ -271,7 +292,7 @@ void Teacher::ShowStudents(Teacher *Teach)
         {
             QString line=query.value(2).toString()+" "+query.value(3).toString();
             Students.append(line);
-
+            students.append(new Student(query.value(4).toString(),query.value(2).toString(),query.value(3).toString()));
         }
     }
     ui->listWidget_2->addItems(Students);
@@ -399,6 +420,7 @@ void Teacher::on_TeacherWidget_itemClicked(QListWidgetItem *item)
 
 void Teacher::on_AddButton_clicked()
 {
+     ui->listWidget_2->clear();
     GetAllStudents();
      QListWidgetItem *itm = ui->TeacherWidget->currentItem();
 
@@ -458,7 +480,7 @@ void Teacher::on_viewGrades_clicked()
      QString selected,selected1;
     if(itm==NULL)
       {
-
+           //QMessageBox::information(this,"Nothing has been chosen","Please make a selection");
       }
       else
         {
@@ -522,6 +544,17 @@ void Teacher::on_listWidget_2_itemDoubleClicked(QListWidgetItem *item)
            query.bindValue(5,this->FirstName);
            query.bindValue(6,this->LastName);
            query.bindValue(7,this->ID);
+           query.exec();
+           query.prepare("Insert into mydb.courses_has_students(Courses_idCourses,Students_idStudents)"
+                "VALUES(?,?)");
+
+           query.bindValue(0,this->ID);
+           query.bindValue(1,list[0]);
+            query.exec();
+           query.prepare("Insert into mydb.grades(Courses_has_Students_Courses_idCourses,Courses_has_Students_Students_idStudents)"
+                "VALUES(?,?)");
+           query.bindValue(0,this->ID);
+           query.bindValue(1,list[0]);
            query.exec();
            ui->listWidget_2->clear();
    }

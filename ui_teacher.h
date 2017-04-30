@@ -59,7 +59,7 @@ public:
         page->setObjectName(QStringLiteral("page"));
         listWidget_2 = new QListWidget(page);
         listWidget_2->setObjectName(QStringLiteral("listWidget_2"));
-        listWidget_2->setGeometry(QRect(5, 100, 651, 192));
+        listWidget_2->setGeometry(QRect(20, 100, 651, 192));
         AddButton = new QPushButton(page);
         AddButton->setObjectName(QStringLiteral("AddButton"));
         AddButton->setGeometry(QRect(80, 370, 93, 28));

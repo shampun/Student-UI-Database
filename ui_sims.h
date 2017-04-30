@@ -217,7 +217,7 @@ public:
         SIMS->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(SIMS);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 735, 21));
+        menuBar->setGeometry(QRect(0, 0, 735, 26));
         SIMS->setMenuBar(menuBar);
         mainToolBar = new QToolBar(SIMS);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -228,7 +228,7 @@ public:
 
         retranslateUi(SIMS);
 
-        stackedWidget->setCurrentIndex(0);
+        stackedWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(SIMS);

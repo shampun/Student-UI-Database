@@ -33,7 +33,7 @@ public:
     QLabel *label_2;
     QLineEdit *LoginUserName;
     QLineEdit *LoginPassword;
-    QPushButton *pushButton;
+    QPushButton *LoginButton;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -62,9 +62,9 @@ public:
         LoginPassword = new QLineEdit(centralwidget);
         LoginPassword->setObjectName(QStringLiteral("LoginPassword"));
         LoginPassword->setGeometry(QRect(300, 240, 241, 31));
-        pushButton = new QPushButton(centralwidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(350, 340, 93, 28));
+        LoginButton = new QPushButton(centralwidget);
+        LoginButton->setObjectName(QStringLiteral("LoginButton"));
+        LoginButton->setGeometry(QRect(350, 340, 93, 28));
         Loginwindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Loginwindow);
         menubar->setObjectName(QStringLiteral("menubar"));
@@ -85,7 +85,7 @@ public:
         welcomeLabel->setText(QApplication::translate("Loginwindow", "Welcome to the Login page", Q_NULLPTR));
         label->setText(QApplication::translate("Loginwindow", "UserName", Q_NULLPTR));
         label_2->setText(QApplication::translate("Loginwindow", "Password", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("Loginwindow", "PushButton", Q_NULLPTR));
+        LoginButton->setText(QApplication::translate("Loginwindow", "Login", Q_NULLPTR));
     } // retranslateUi
 
 };

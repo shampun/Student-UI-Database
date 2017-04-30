@@ -26,8 +26,8 @@ void Loginwindow::on_LoginButton_clicked()
     //QString username = ui->LoginUserName->text();
     // QString   pwd = ui->LoginPassword->text();
 
-        QString  username = "aj";
-        QString  pwd = "sand";
+        QString  username = "lame";
+        QString  pwd = "city";
         QSqlQuery query;
 
         if (query.exec("SELECT * FROM mydb.students"))
