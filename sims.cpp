@@ -3,6 +3,15 @@
 #include "teacher.h"
 #include "ui_teacher.h"
 #include "loginwindow.h"
+#include <QtSql/QtSql>
+#include <Qtsql/QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlDriver>
+#include <QInputDialog>
+#include <QMessageBox>
+#include<qstring.h>
+#include <QListWidgetItem>
+#include <QListWidget>
 
 using namespace std;
 SIMS::SIMS(QWidget *parent) :
@@ -17,6 +26,23 @@ SIMS::SIMS(QString mID, QString mFirstName, QString mLastName, QWidget *parent):
     ui(new Ui::SIMS)
 {
     ui->setupUi(this);
+    ui->stackedWidget->setCurrentIndex(1);
+    ui->TheStudentName->setText(mFirstName+" "+mLastName);
+    ui->StudIDlabel->setText(mID);
+    ui->TheStudentID->setText(mID);
+    QSqlQuery query;
+    query.exec("SELECT * FROM mydb.courses");
+    while (query.next())
+    {
+     if(query.value(4).toString() == mID)
+        {
+        ui->listWidget->addItem(query.value(1).toString());
+          }
+    }
+    id=mID;
+    fname=mFirstName;
+    lname=mLastName;
+
     //Add startup code
 
 

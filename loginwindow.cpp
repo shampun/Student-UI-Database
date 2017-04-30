@@ -2,6 +2,7 @@
 #include "ui_loginwindow.h"
 #include "sims.h"
 #include "teacher.h"
+#include "admin.h"
 #include <QtSql/QtSql>
 #include <Qtsql/QSqlDatabase>
 #include <QSqlQuery>
@@ -25,8 +26,8 @@ void Loginwindow::on_LoginButton_clicked()
     //QString username = ui->LoginUserName->text();
     // QString   pwd = ui->LoginPassword->text();
 
-        QString  username = "cmartinez0";
-        QString  pwd = "z8r2Py";
+        QString  username = "aj";
+        QString  pwd = "sand";
         QSqlQuery query;
 
         if (query.exec("SELECT * FROM mydb.students"))
@@ -59,6 +60,22 @@ void Loginwindow::on_LoginButton_clicked()
                     break;
                 }
             }
+
+        }
+        if(query.exec("Select * From mydb.admins"))
+        {
+
+            while (query.next())
+            {
+                if(query.value(1).toString() == username && query.value(2).toString() == pwd)
+                {
+                    this->hide();
+                    Admin *admin=new Admin();
+                      admin->show();
+                    break;
+                }
+            }
+
 
         }
         else

@@ -200,7 +200,7 @@ QString line=GetStudentID(StudFname);
 QString Teacher::FindStudent(int ID)
 {
     QSqlQuery query;
-    query.exec("SELECT * FROM mydb.students;");
+    query.exec("SELECT * FROM mydb.students");
     while(query.next())
     {
         if(query.value(0).toInt()==ID)
@@ -336,7 +336,7 @@ void Teacher::ShowStudentsGrades(QString StudentID, QString CourseID)
 }
 void Teacher::on_pushButton_clicked()
 {
-      ui->Classeslbl->setText("AJ IS the man");
+
           QString line;
             QString line2;
     QSqlQuery query;
