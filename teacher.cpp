@@ -59,12 +59,14 @@ void Teacher::AddGrade(QString StudentID, int CourseID)
                 query.addBindValue(testScore.toInt());
                 query.addBindValue(CourseID);
                 query.addBindValue(StudentID);
+                 query.exec();
               }
           else if(QMessageBox::question(this,"Grade exist","Entry exist would you like to change it",QMessageBox::Yes |QMessageBox::No))
             {
               query.prepare("update mydb.grades set Test1=? Where Courses_has_Students_Students_idStudents=?");
               query.bindValue(0,testScore.toInt());
               query.bindValue(1,StudentID);
+               query.exec();
              }
               else
               {
@@ -80,12 +82,14 @@ void Teacher::AddGrade(QString StudentID, int CourseID)
                query.addBindValue(testScore.toInt());
                query.addBindValue(CourseID);
                query.addBindValue(StudentID);
+                query.exec();
          }
            else if(QMessageBox::question(this,"Grade exist","Entry exist would you like to change it",QMessageBox::Yes |QMessageBox::No))
            {
                query.prepare("update mydb.grades set Test2=? Where Courses_has_Students_Students_idStudents=?");
                query.bindValue(0,testScore.toInt());
                query.bindValue(1,StudentID);
+                query.exec();
            }
            else
            {
@@ -100,12 +104,14 @@ void Teacher::AddGrade(QString StudentID, int CourseID)
               query.addBindValue(testScore.toInt());
               query.addBindValue(CourseID);
               query.addBindValue(StudentID);
+               query.exec();
           }
           else if(QMessageBox::question(this,"Grade exist","Entry exist would you like to change it",QMessageBox::Yes |QMessageBox::No))
           {
               query.prepare("update mydb.grades set Test3=? Where Courses_has_Students_Students_idStudents=?");
               query.bindValue(0,testScore.toInt());
               query.bindValue(1,StudentID);
+               query.exec();
           }
           else
           {
@@ -130,8 +136,9 @@ void Teacher::DelGrade(QString CourseID, QString StudentID,QString TestNum,QStri
     if(TestNum=="1")
     {
       query.prepare("update mydb.grades set Test1=? Where Courses_has_Students_Students_idStudents=?");
-           query.bindValue(0,testScore.toInt());
+           query.bindValue(0,testScore);
            query.bindValue(1,StudentID);
+           query.exec();
         }
            else
            {
@@ -142,8 +149,9 @@ void Teacher::DelGrade(QString CourseID, QString StudentID,QString TestNum,QStri
     if(TestNum=="2")
     {
             query.prepare("update mydb.grades set Test2=? Where Courses_has_Students_Students_idStudents=?");
-            query.bindValue(0,testScore.toInt());
+            query.bindValue(0,testScore);
             query.bindValue(1,StudentID);
+             query.exec();
         }
         else
         {
@@ -155,6 +163,7 @@ void Teacher::DelGrade(QString CourseID, QString StudentID,QString TestNum,QStri
        query.prepare("update mydb.grades set Test3=? Where Courses_has_Students_Students_idStudents=?");
            query.bindValue(0,testScore.toInt());
            query.bindValue(1,StudentID);
+            query.exec();
        }
        else
        {
