@@ -140,34 +140,37 @@ void Teacher::DelGrade(QString CourseID, QString StudentID,QString TestNum)
 {
     QSqlQuery query;
     int zero=0;
+    qDebug()<<StudentID;
+    qDebug()<<CourseID;
     if(TestNum=="1")
     {
-        query.prepare("update mydb.grades set Test1=? Where Courses_has_Students_Courses_idCourses=? and Courses_has_Students_Students_idStudents=?");
-        query.bindValue(0,NULL);
-        query.bindValue(1,CourseID.toInt());
-        query.bindValue(2,StudentID.toInt());
-         query.exec();
-
+        query.exec("UPDATE `mydb`.`grades` SET `Test1`='0' WHERE `Courses_has_Students_Courses_idCourses`='"+CourseID+"' and`Courses_has_Students_Students_idStudents`='"+StudentID+"'");
 
     }
 
 
     if(TestNum=="2")
     {
-            query.prepare("update mydb.grades set Test2=? Where Courses_has_Students_Courses_idCourses=? and Courses_has_Students_Students_idStudents=?");
+      query.prepare("update grades set Test2=?, Where Courses_has_Students_Courses_idCourses=? and Courses_has_Students_Students_idStudents=?");
+      if(query.isValid())
+      {
             query.bindValue(0,NULL);
-            query.bindValue(1,CourseID.toInt());
+            query.bindValue(1,CourseID);
             query.bindValue(2,StudentID);
              query.exec();
+                }
      }
 
     if(TestNum=="3")
     {
-       query.prepare("update mydb.grades set Test3=? Where Courses_has_Students_Courses_idCourses=? and Courses_has_Students_Students_idStudents=?");
-           query.bindValue(0,NULL);
+     query.prepare("update mydb.grades set Test3=? Where Courses_has_Students_Courses_idCourses=? and Courses_has_Students_Students_idStudents=?");
+     if(query.isValid())
+     {
+     query.bindValue(0,NULL);
            query.bindValue(1,CourseID.toInt());
            query.bindValue(2,StudentID.toInt());
             query.exec();
+      }
     }
 
 
@@ -669,7 +672,7 @@ void Teacher::on_listWidget_2_itemDoubleClicked(QListWidgetItem *item)
            QString TestNum=  QInputDialog::getText(this,"Tests","Test Number");
            if(TestNum.toInt()>0 && TestNum.toInt()<4)
               {
-           DelGrade(GetCourseID(),list[0],TestNum);
+           DelGrade(GetCourseID(),GetStudentID(list[0]),TestNum);
            Removestudentbutton->setEnabled(true);
            AddGradebutton->setEnabled(true);
 
