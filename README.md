@@ -1,4 +1,5 @@
 # Student-UI-Database
+            query.exec("UPDATE `mydb`.`grades` SET `Test2`='0' WHERE `Courses_has_Students_Courses_idCourses`='"+CourseID+"' and`Courses_has_Students_Students_idStudents`='"+StudentID+"'");
 
 The goal of this project is to create a program that acts with three users: Admin, Teacher, and student.
 
