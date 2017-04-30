@@ -47,12 +47,13 @@ void Admin::DeleteCourse()
     tlast=ui->tlast->text();
     tid=ui->tid->text();
 
-    QSqlQuery delstud;
-  delstud.prepare("Delete from mydb.courses where idCourses=?,CourseName=?,StuFName=?,idStudents=?");\
-delstud.addBindValue(cid);
-delstud.addBindValue(cname);
-delstud.addBindValue(sname);
-delstud.addBindValue(sid);
+
+    QSqlQuery delstud,delstud2,delstud3;
+
+ delstud3.exec("DELETE FROM `mydb`.`courses_has_students` WHERE `Courses_idCourses`='"+cid+"' and`Students_idStudents`='"+sid+"'");
+   delstud2.exec("DELETE FROM `mydb`.`grades` WHERE `Courses_has_Students_Courses_idCourses`='"+cid+"' and`Courses_has_Students_Students_idStudents`='"+sid+"', ");
+ delstud.exec("DELETE FROM `mydb`.`courses` WHERE `idCourses`='"+cid+"' and`idStudents`='"+sid+"' and `Instructors_idInstructors`='"+tid+"'");
+
 
   if (delstud.exec())
   {
@@ -285,6 +286,45 @@ void Admin::RegisterNewClass()
            QMessageBox::critical(this,tr("Register"), tr("Registered"));
        }
 
+
+}
+
+void Admin::RegisterNewClass2()
+{
+    QString stid,stname,stlast,tname,tlast,tid,cid,cname;
+
+    cid=ui->cid->text();
+    cname=ui->cname->text();
+    stid=ui->sid->text();
+    stname=ui->sname->text();
+    stlast=ui->slast->text();
+    tname=ui->tname->text();
+    tlast=ui->tlast->text();
+    tid=ui->tid->text();
+
+    QSqlQuery addstudent_2;
+    addstudent_2.exec("INSERT INTO `mydb`.`courses_has_students` (`Courses_idCourses`, `Students_idStudents`) VALUES ('"+cid+"', '"+stid+"');");
+
+
+
+
+}
+
+void Admin::RegisterNewClass3()
+{
+    QString stid,stname,stlast,tname,tlast,tid,cid,cname;
+
+    cid=ui->cid->text();
+    cname=ui->cname->text();
+    stid=ui->sid->text();
+    stname=ui->sname->text();
+    stlast=ui->slast->text();
+    tname=ui->tname->text();
+    tlast=ui->tlast->text();
+    tid=ui->tid->text();
+
+    QSqlQuery addstudent_3;
+    addstudent_3.exec("INSERT INTO `mydb`.`grades` (`Courses_has_Students_Courses_idCourses`, `Courses_has_Students_Students_idStudents`) VALUES ('"+cid+"', '"+stid+"')");
 }
 
 void Admin::UpdateTeacher()
@@ -432,6 +472,9 @@ void Admin::on_tview_activated(const QModelIndex &index)
 void Admin::on_pushButton_7_clicked()
 {
 RegisterNewClass();
+
+RegisterNewClass2();
+RegisterNewClass3();
 BuildCourseView();
 ui->CourseView_2->setModel(CourseProxy);
 BuildCourseStudent();
@@ -498,7 +541,7 @@ void Admin::on_CourseView_2_activated(const QModelIndex &index)
 {
     QString c = ui->CourseView_2->model()->data(index).toString();
     QSqlQuery mod;
-    mod.prepare("select *from courses where idCourses='"+c+"'or CourseName='"+c+"'" );
+    mod.prepare("select *from courses where idCourses='"+c+"'or CourseName='"+c+"'or StuFName='"+c+"'or idStudents='"+c+"'");
 
     if (mod.exec())
     {
@@ -506,12 +549,12 @@ void Admin::on_CourseView_2_activated(const QModelIndex &index)
     {
     ui->cid->setText(mod.value(0).toString());
     ui->cname->setText(mod.value(1).toString());
-    ui->sid->setText(mod.value(2).toString());
-    ui->sname->setText(mod.value(3).toString());
-    ui->slast->setText(mod.value(4).toString());
-    ui->tid->setText(mod.value(5).toString());
-    ui->tname->setText(mod.value(6).toString());
-    ui->tlast->setText(mod.value(7).toString());
+    ui->sname->setText(mod.value(2).toString());
+    ui->slast->setText(mod.value(3).toString());
+    ui->sid->setText(mod.value(4).toString());
+    ui->tname->setText(mod.value(5).toString());
+    ui->tlast->setText(mod.value(6).toString());
+    ui->tid->setText(mod.value(7).toString());
 
         }
     }
@@ -520,6 +563,13 @@ void Admin::on_CourseView_2_activated(const QModelIndex &index)
 void Admin::on_pushButton_clicked()
 {
 DeleteCourse();
+BuildCourseView();
+ui->CourseView_2->setModel(CourseProxy);
+BuildCourseStudent();
+ui->stview->setModel(Cstudent);
+BuildCourseTeacher();
+ ui->tview->setModel(Cteacher);
+
 }
 
 void Admin::on_searchedit_4_textChanged(const QString &arg1)
@@ -654,4 +704,9 @@ void Admin::on_pushButton_12_clicked()
 void Admin::on_InfoBackButn_clicked()
 {
     ui->swidge->setCurrentIndex(0);
+}
+
+void Admin::on_logout_button_6_clicked()
+{
+
 }

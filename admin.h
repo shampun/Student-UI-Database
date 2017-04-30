@@ -110,6 +110,8 @@ private slots:
 
     void on_InfoBackButn_clicked();
 
+    void on_logout_button_6_clicked();
+
 private:
     Ui::Admin *ui;
     void DeleteCourse();
@@ -121,6 +123,8 @@ private:
     void Add_Instructor();
     void Add_Students();
     void RegisterNewClass();
+    void RegisterNewClass2();
+    void RegisterNewClass3();
     void BuildCourseStudent();
     void BuildCourseTeacher();
     void BuildCourseView();
