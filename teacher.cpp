@@ -50,6 +50,8 @@ void Teacher::AddGrade(QString StudentID, int CourseID)
     QSqlQuery query;
     QString testScore=  QInputDialog::getText(this,"Tests","Enter test Score");
    QString TestNum=  QInputDialog::getText(this,"Tests","Test Number");
+   if(TestNum.toInt()>0 && TestNum.toInt()<4)
+   {
        //modify each grades for a specific test
        if(TestNum=="1")
        {
@@ -61,18 +63,16 @@ void Teacher::AddGrade(QString StudentID, int CourseID)
                 query.addBindValue(StudentID);
                  query.exec();
               }
-          else if(QMessageBox::question(this,"Grade exist","Entry exist would you like to change it",QMessageBox::Yes |QMessageBox::No))
+          else
             {
-              query.prepare("update mydb.grades set Test1=? Where Courses_has_Students_Students_idStudents=?");
-              query.bindValue(0,testScore.toInt());
-              query.bindValue(1,StudentID);
-               query.exec();
-             }
-              else
-              {
-              QMessageBox::information(this,"No entries added","No entries added");
+               if(QMessageBox::question(this,"Grade exist","Entry exist would you like to change it",QMessageBox::Yes |QMessageBox::No))
+                {
+                 query.prepare("update mydb.grades set Test1=? Where Courses_has_Students_Students_idStudents=?");
+                query.bindValue(0,testScore.toInt());
+                query.bindValue(1,StudentID);
+                 query.exec();
+                }
            }
-
        }
        if(TestNum=="2")
        {
@@ -84,17 +84,16 @@ void Teacher::AddGrade(QString StudentID, int CourseID)
                query.addBindValue(StudentID);
                 query.exec();
          }
-           else if(QMessageBox::question(this,"Grade exist","Entry exist would you like to change it",QMessageBox::Yes |QMessageBox::No))
+           else
+            {
+            if(QMessageBox::question(this,"Grade exist","Entry exist would you like to change it",QMessageBox::Yes |QMessageBox::No))
            {
                query.prepare("update mydb.grades set Test2=? Where Courses_has_Students_Students_idStudents=?");
                query.bindValue(0,testScore.toInt());
                query.bindValue(1,StudentID);
                 query.exec();
            }
-           else
-           {
-               QMessageBox::information(this,"No entries added","No entries added");
-           }
+       }
        }
        if(TestNum=="3")
        {
@@ -106,69 +105,71 @@ void Teacher::AddGrade(QString StudentID, int CourseID)
               query.addBindValue(StudentID);
                query.exec();
           }
-          else if(QMessageBox::question(this,"Grade exist","Entry exist would you like to change it",QMessageBox::Yes |QMessageBox::No))
-          {
+          else
+         {
+             if(QMessageBox::question(this,"Grade exist","Entry exist would you like to change it",QMessageBox::Yes |QMessageBox::No))
+            {
               query.prepare("update mydb.grades set Test3=? Where Courses_has_Students_Students_idStudents=?");
               query.bindValue(0,testScore.toInt());
               query.bindValue(1,StudentID);
                query.exec();
-          }
-          else
-          {
-              QMessageBox::information(this,"No entries added","no entries added");
-          }
+             }
 
        }
-       else
-       {
-           QMessageBox::information(this,"No entries added","no entries added");
-       }
 
+        }
     query.exec();
     ui->listWidget_2->setEnabled(false);
     ui->listWidget_2->clear();
      ShowStudents(this);
      AddGradebutton->setChecked(false);
+   }
+   else
+   {
+       QMessageBox::information(this,"TestNUM","Need to enter a test number within range 1-3");
+
+       ui->listWidget_2->setEnabled(false);
+       ui->listWidget_2->clear();
+        ShowStudents(this);
+        AddGradebutton->setChecked(false);
+
+
+   }
 }
-void Teacher::DelGrade(QString CourseID, QString StudentID,QString TestNum,QString testScore)
+void Teacher::DelGrade(QString CourseID, QString StudentID,QString TestNum)
 {
     QSqlQuery query;
+    int zero=0;
     if(TestNum=="1")
     {
-      query.prepare("update mydb.grades set Test1=? Where Courses_has_Students_Students_idStudents=?");
-           query.bindValue(0,testScore);
-           query.bindValue(1,StudentID);
-           query.exec();
-        }
-           else
-           {
-           QMessageBox::information(this,"No entries added","No entries added");
-            }
+        query.prepare("update mydb.grades set Test1=? Where Courses_has_Students_Courses_idCourses=? and Courses_has_Students_Students_idStudents=?");
+        query.bindValue(0,NULL);
+        query.bindValue(1,CourseID.toInt());
+        query.bindValue(2,StudentID.toInt());
+         query.exec();
+
+
+    }
 
 
     if(TestNum=="2")
     {
-            query.prepare("update mydb.grades set Test2=? Where Courses_has_Students_Students_idStudents=?");
-            query.bindValue(0,testScore);
-            query.bindValue(1,StudentID);
+            query.prepare("update mydb.grades set Test2=? Where Courses_has_Students_Courses_idCourses=? and Courses_has_Students_Students_idStudents=?");
+            query.bindValue(0,NULL);
+            query.bindValue(1,CourseID.toInt());
+            query.bindValue(2,StudentID);
              query.exec();
-        }
-        else
-        {
-            QMessageBox::information(this,"No entries added","No entries added");
-        }
+     }
 
     if(TestNum=="3")
     {
-       query.prepare("update mydb.grades set Test3=? Where Courses_has_Students_Students_idStudents=?");
-           query.bindValue(0,testScore.toInt());
-           query.bindValue(1,StudentID);
+       query.prepare("update mydb.grades set Test3=? Where Courses_has_Students_Courses_idCourses=? and Courses_has_Students_Students_idStudents=?");
+           query.bindValue(0,NULL);
+           query.bindValue(1,CourseID.toInt());
+           query.bindValue(2,StudentID.toInt());
             query.exec();
-       }
-       else
-       {
-           QMessageBox::information(this,"No entries added","no entries added");
-       }
+    }
+
 
 
 ui->listWidget_2->setEnabled(false);
@@ -180,7 +181,7 @@ ui->listWidget_2->clear();
 void Teacher::GetAllStudents()
 {
     QSqlQuery query;
-    QStringList Students;
+
      ui->listWidget_2->clear();
     query.exec("SELECT * FROM mydb.students;");
     while(query.next())
@@ -188,31 +189,29 @@ void Teacher::GetAllStudents()
         Allstudents.append(new Student(query.value(0).toString(),query.value(1).toString(),query.value(2).toString()));
 
     }
-    QString line2="";
-    for(int i=0;i<Allstudents.length()-1;i++)
-    {
-        for(int j=0;j<students.length()-1;j++)
+    qDebug()<<Allstudents.size();
+        for(int i=0;i<Allstudents.size()-1;i++)
         {
 
-            qDebug()<<Allstudents.size();
-            if(Allstudents[i]->FirstName!=students[j]->FirstName)
+            qDebug()<<students.size();
+            for(int j=0;j<students.size();j++)
             {
-                QString line=Allstudents[i]->FirstName+" "+Allstudents[i]->LastName;
-                if(line==line2)
+                qDebug()<<Allstudents[i]->FirstName;
+                qDebug()<<students[j]->FirstName;
+                if(Allstudents[i]->ID==students[j]->ID)
                 {
-                continue;
+                 Allstudents.removeOne(Allstudents[i]);
                 }
-                else
-                {
-                    ui->listWidget_2->addItem(line);
-                    line2=line;
-                }
-
             }
-            else
-                continue;
-        }
-    }
+         }
+           qDebug()<<Allstudents.size();
+           QStringList allstudents;
+           for(int i=0;i<Allstudents.size();i++)
+           {
+               allstudents.append(Allstudents[i]->FirstName+" "+Allstudents[i]->LastName);
+           }
+           ui->listWidget_2->clear();
+        ui->listWidget_2->addItems(allstudents);
 
 }
 QString Student::show()
@@ -248,14 +247,17 @@ if( QMessageBox::question(this,"Adding student","is this the student",QMessageBo
     query.exec();
     query.prepare("Insert into mydb.courses_has_students(Courses_idCourses,Students_idStudents)"
          "VALUES(?,?)");
-
+    qDebug()<<GetStudentID(list[0]);
     query.bindValue(0,this->ID);
     query.bindValue(1,GetStudentID(list[0]));
      query.exec();
-    query.prepare("Insert into mydb.grades(Courses_has_Students_Courses_idCourses,Courses_has_Students_Students_idStudents)"
-         "VALUES(?,?)");
+    query.prepare("Insert into mydb.grades(Courses_has_Students_Courses_idCourses,Courses_has_Students_Students_idStudents,Test1,Test2,Test3)"
+         "VALUES(?,?,?,?,?)");
     query.bindValue(0,this->ID);
     query.bindValue(1,GetStudentID(list[0]));
+    query.bindValue(2,"0");
+    query.bindValue(3,"0");
+    query.bindValue(4,"0");
     query.exec();
     ui->listWidget_2->clear();
      ui->listWidget_2->setEnabled(false);
@@ -353,12 +355,13 @@ void Teacher::ShowStudents(Teacher *Teach)
 {
     QStringList Students;
     QSqlQuery query;
-    query.exec("SELECT * FROM mydb.courses;");
+    query.exec("SELECT * FROM mydb.grades;");
     while(query.next())
     {
-        if(query.value(7)==Teach->ID)
+        if(query.value(4).toString()==GetCourseID())
         {
-            QString line=query.value(2).toString()+" "+query.value(3).toString();
+           QString line=FindStudent(query.value(5).toInt());
+
             Students.append(line);
             students.append(new Student(query.value(4).toString(),query.value(2).toString(),query.value(3).toString()));
         }
@@ -481,6 +484,11 @@ QString Teacher::GetStudentID(QString name)
 
 void Teacher::on_TeacherWidget_itemClicked(QListWidgetItem *item)
 {   ui->listWidget_2->clear();
+    RemoveGradebutton->setEnabled(true);
+    AddGradebutton->setEnabled(true);
+    Removestudentbutton->setEnabled(true);
+    Viewgradesbutton->setEnabled(true);
+    ADDStudentbutton->setEnabled(true);
     Selected=item->text();
     if(ui->listWidget_2->count()==0)
     {
@@ -497,8 +505,10 @@ void Teacher::on_AddButton_clicked()
             RemoveGradebutton->setEnabled(true);
             AddGradebutton->setEnabled(true);
             Removestudentbutton->setEnabled(true);
-
+            ui->listWidget_2->clear();
             Viewgradesbutton->setEnabled(true);
+            ShowStudents(this);
+            ui->listWidget_2->setEnabled(false);
     }
       else
     {
@@ -523,6 +533,9 @@ void Teacher::on_RemoveStudent_clicked()
 
             ADDStudentbutton->setEnabled(true);
             Viewgradesbutton->setEnabled(true);
+            ui->listWidget_2->clear();
+            ShowStudents(this);
+            ui->listWidget_2->setEnabled(false);
     }
       else
     {
@@ -543,6 +556,9 @@ void Teacher::on_AddGrade_clicked()
             Removestudentbutton->setEnabled(true);
             ADDStudentbutton->setEnabled(true);
             Viewgradesbutton->setEnabled(true);
+            ui->listWidget_2->clear();
+            ShowStudents(this);
+            ui->listWidget_2->setEnabled(false);
     }
       else
     {
@@ -563,6 +579,9 @@ void Teacher::on_RemoveGrade_clicked()
             Removestudentbutton->setEnabled(true);
             ADDStudentbutton->setEnabled(true);
             Viewgradesbutton->setEnabled(true);
+            ui->listWidget_2->clear();
+            ShowStudents(this);
+            ui->listWidget_2->setEnabled(false);
     }
       else
     {
@@ -611,6 +630,7 @@ void Teacher::on_viewGrades_clicked()
 void Teacher::on_listWidget_2_itemClicked(QListWidgetItem *item)
 {
     Selected=item->text();
+
 }
 
 void Teacher::on_listWidget_2_itemDoubleClicked(QListWidgetItem *item)
@@ -645,14 +665,21 @@ void Teacher::on_listWidget_2_itemDoubleClicked(QListWidgetItem *item)
             QListWidgetItem *itm = ui->listWidget_2->currentItem();
             QString selected= itm->text();
             QStringList list=selected.split(QRegExp("\\s+"), QString::SkipEmptyParts);
-            QString testScore=  QInputDialog::getText(this,"Tests","Enter test Score");
+
            QString TestNum=  QInputDialog::getText(this,"Tests","Test Number");
-           DelGrade(GetCourseID(),list[0],TestNum,testScore);
+           if(TestNum.toInt()>0 && TestNum.toInt()<4)
+              {
+           DelGrade(GetCourseID(),list[0],TestNum);
            Removestudentbutton->setEnabled(true);
            AddGradebutton->setEnabled(true);
 
             ADDStudentbutton->setEnabled(true);
            Viewgradesbutton->setEnabled(true);
+           }
+           else
+           {
+               QMessageBox::information(this,"Testnumber","Enter a test number between 1-3");
+           }
          }
          if(Viewgradesbutton->isChecked())
          {
