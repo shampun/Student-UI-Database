@@ -32,6 +32,12 @@ Teacher::Teacher(QString mID, QString mFirstName, QString mLastName, QWidget *pa
     LastName=mLastName;
     GetClasses(this);
 
+  ADDStudentbutton=ui->AddButton;
+   AddGradebutton=ui->AddGrade;
+   Viewgradesbutton=ui->viewGrades;
+ Removestudentbutton=ui->RemoveStudent;
+ RemoveGradebutton=ui->RemoveGrade;
+
 }
 
 Teacher::~Teacher()
@@ -63,7 +69,7 @@ void Teacher::AddGrade(QString StudentID, int CourseID)
               else
               {
               QMessageBox::information(this,"No entries added","No entries added");
-               }
+           }
 
        }
        if(TestNum=="2")
@@ -113,6 +119,10 @@ void Teacher::AddGrade(QString StudentID, int CourseID)
        }
 
     query.exec();
+    ui->listWidget_2->setEnabled(false);
+    ui->listWidget_2->clear();
+     ShowStudents(this);
+     AddGradebutton->setChecked(false);
 }
 void Teacher::DelGrade(QString CourseID, QString StudentID,QString TestNum,QString testScore)
 {
@@ -152,6 +162,10 @@ void Teacher::DelGrade(QString CourseID, QString StudentID,QString TestNum,QStri
        }
 
 
+ui->listWidget_2->setEnabled(false);
+ui->listWidget_2->clear();
+ ShowStudents(this);
+ RemoveGradebutton->setChecked(false);
 
 }
 void Teacher::GetAllStudents()
@@ -199,11 +213,50 @@ QString Student::show()
     return line;
 
 }
-void Teacher::AddStudent(QString CourseID,QString CourseName,Teacher *teach)
+void Teacher::AddStudent(QString CourseID, QString CourseName)
 {
+    QListWidgetItem *itm=ui->TeacherWidget->currentItem();
+     QString McourseName=itm->text();
+QSqlQuery query;
+QListWidgetItem *itm2=ui->listWidget_2->currentItem();
+QString mstudent=itm2->text();
+QStringList list= mstudent.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+if( QMessageBox::question(this,"Adding student","is this the student",QMessageBox::Yes,QMessageBox::No))
+{
+// Insert new student into class
+    query.prepare("INSERT INTO mydb.courses(idCourses,CourseName,StuFName,StuLName,idStudents,InstrFName,InstrLName,Instructors_idInstructors)"
+              "VALUES(?,?,?,?,?,?,?,?)");
 
-    QMessageBox::information(this,"ADDing a Student","Choose the student you wish to add");
 
+    query.bindValue(0,CourseID);
+    query.bindValue(1,CourseName);
+    query.bindValue(2,list[0]);
+    query.bindValue(3,list[1]);
+    query.bindValue(4,GetStudentID(list[0]));
+    query.bindValue(5,this->FirstName);
+    query.bindValue(6,this->LastName);
+    query.bindValue(7,this->ID);
+    query.exec();
+    query.prepare("Insert into mydb.courses_has_students(Courses_idCourses,Students_idStudents)"
+         "VALUES(?,?)");
+
+    query.bindValue(0,this->ID);
+    query.bindValue(1,GetStudentID(list[0]));
+     query.exec();
+    query.prepare("Insert into mydb.grades(Courses_has_Students_Courses_idCourses,Courses_has_Students_Students_idStudents)"
+         "VALUES(?,?)");
+    query.bindValue(0,this->ID);
+    query.bindValue(1,GetStudentID(list[0]));
+    query.exec();
+    ui->listWidget_2->clear();
+     ui->listWidget_2->setEnabled(false);
+     ShowStudents(this);
+     ADDStudentbutton->setChecked(false);
+}
+else
+{
+QMessageBox::information(this,"Error","Unable to add Student");
+}
 
 
 }
@@ -216,6 +269,10 @@ QString line=GetStudentID(StudFname);
    query.bindValue(0,line);
    query.bindValue(1,CourseID);
    query.exec();
+   ui->listWidget_2->setEnabled(false);
+   ui->listWidget_2->clear();
+   ShowStudents(this);
+   Removestudentbutton->setChecked(false);
 }
 QString Teacher::FindStudent(int ID)
 {
@@ -257,6 +314,7 @@ QString mStudent= FindStudent(query.value(5).toInt())+" Test 1 "+query.value(0).
         else
             continue;
     }
+
     return mGrades;
 
 }
@@ -281,6 +339,7 @@ QString Teacher::GetCourseID()
     return courseID;
 
 }
+
 void Teacher::ShowStudents(Teacher *Teach)
 {
     QStringList Students;
@@ -332,6 +391,10 @@ void Teacher::GetClasses(Teacher *Teach)
           ui->listWidget_2->setFocus();
 
      }
+
+}
+void Teacher::showAstudentgrade(QString StudentID, QString CourseID)
+{
 
 }
 void Teacher::ShowStudentsGrades(QString StudentID, QString CourseID)
@@ -420,98 +483,119 @@ void Teacher::on_TeacherWidget_itemClicked(QListWidgetItem *item)
 
 void Teacher::on_AddButton_clicked()
 {
+    if(!ADDStudentbutton->isChecked())
+    {
+            RemoveGradebutton->setEnabled(true);
+            AddGradebutton->setEnabled(true);
+            Removestudentbutton->setEnabled(true);
+
+            Viewgradesbutton->setEnabled(true);
+    }
+      else
+    {
+            RemoveGradebutton->setEnabled(false);
+            Viewgradesbutton->setEnabled(false);
+            AddGradebutton->setEnabled(false);
+            Removestudentbutton->setEnabled(false);
+            ui->listWidget_2->setEnabled(true);
+
      ui->listWidget_2->clear();
-    GetAllStudents();
-     QListWidgetItem *itm = ui->TeacherWidget->currentItem();
-
-     AddStudent(GetCourseID(),itm->text(),this);
+     GetAllStudents();
      QMessageBox::information(this,"How to choose","Double check on the student you wish to add");
-
+    }
 }
 
 void Teacher::on_RemoveStudent_clicked()
 {
-    QListWidgetItem *itm = ui->listWidget_2->currentItem();
-    QString selected= itm->text();
-     QStringList list= selected.split(QRegExp("\\s+"), QString::SkipEmptyParts);
-    RemoveStudent(GetCourseID(),list[0]);
+    if(!Removestudentbutton->isChecked())
+    {
+            RemoveGradebutton->setEnabled(true);
+            AddGradebutton->setEnabled(true);
+
+            ADDStudentbutton->setEnabled(true);
+            Viewgradesbutton->setEnabled(true);
+    }
+      else
+    {
+            RemoveGradebutton->setEnabled(false);
+            Viewgradesbutton->setEnabled(false);
+            AddGradebutton->setEnabled(false);
+
+             ADDStudentbutton->setEnabled(false);
+                 ui->listWidget_2->setEnabled(true);
+    }
 }
 
 void Teacher::on_AddGrade_clicked()
 {
-    QListWidgetItem *itm = ui->listWidget_2->currentItem();
-    if(itm==NULL)
+    if(!AddGradebutton->isChecked())
     {
-        QMessageBox::information(this,"Warning","Please Choose student");
-        return;
+            RemoveGradebutton->setEnabled(true);
+            Removestudentbutton->setEnabled(true);
+            ADDStudentbutton->setEnabled(true);
+            Viewgradesbutton->setEnabled(true);
     }
-    else
+      else
     {
-    QString selected= itm->text();
-     QStringList list= selected.split(QRegExp("\\s+"), QString::SkipEmptyParts);
-     QString id=GetCourseID();
-    AddGrade(GetStudentID(list[0]),id.toInt());
+            RemoveGradebutton->setEnabled(false);
+            Viewgradesbutton->setEnabled(false);
+            Removestudentbutton->setEnabled(false);
+             ADDStudentbutton->setEnabled(false);
+        ui->listWidget_2->setEnabled(true);
     }
 }
 
 void Teacher::on_RemoveGrade_clicked()
 {
-   QListWidgetItem *itm = ui->listWidget_2->currentItem();
-   if(itm==NULL)
-   {
-       QMessageBox::information(this,"Warning","Please Choose student");
-       return;
-   }
-   else
-   {
-   QString mStudent=itm->text();
-   QStringList list= mStudent.split(QRegExp("\\s+"), QString::SkipEmptyParts);
-   QString testScore=  QInputDialog::getText(this,"Tests","Enter test Score");
-  QString TestNum=  QInputDialog::getText(this,"Tests","Test Number");
-  DelGrade(GetCourseID(),list[0],TestNum,testScore);
-   }
+    if(!RemoveGradebutton->isChecked())
+    {
+
+            AddGradebutton->setEnabled(true);
+            Removestudentbutton->setEnabled(true);
+            ADDStudentbutton->setEnabled(true);
+            Viewgradesbutton->setEnabled(true);
+    }
+      else
+    {
+            Viewgradesbutton->setEnabled(false);
+            AddGradebutton->setEnabled(false);
+            Removestudentbutton->setEnabled(false);
+             ADDStudentbutton->setEnabled(false);
+            ui->listWidget_2->setEnabled(true);
+    }
+
 }
 
 void Teacher::on_viewGrades_clicked()
 {
+    if(!Viewgradesbutton->isChecked())
+    {
+        AddGradebutton->setEnabled(true);
+        Removestudentbutton->setEnabled(true);
+        RemoveGradebutton->setEnabled(true);
+        ADDStudentbutton->setEnabled(true);
+        ui->listWidget_2->setEnabled(false);
+        ui->listWidget_2->clear();
+        ShowStudents(this);
+    }
+    else
+    {
+    AddGradebutton->setEnabled(false);
+    ADDStudentbutton->setEnabled(false);
+    Removestudentbutton->setEnabled(false);
+    RemoveGradebutton->setEnabled(false);
+    ui->listWidget_2->setEnabled(true);
     QStringList Grades;
     QListWidgetItem *itm = ui->listWidget_2->currentItem();
     QListWidgetItem *Titm = ui->TeacherWidget->currentItem();
      QString selected,selected1;
-    if(itm==NULL)
-      {
-           //QMessageBox::information(this,"Nothing has been chosen","Please make a selection");
-      }
-      else
-        {
-          selected= itm->text();
-        }
-    if(Titm==NULL)
-    {
-
-    }
-    else
-    {
-        selected1= Titm->text();
-    }
 
     ui->listWidget_2->clear();
-    QStringList list= Selected.split(QRegExp("\\s+"), QString::SkipEmptyParts);
-         if(Selected == "")
-         {
-            //No one Selected
-         }
-         //Everyone in the class grades will be shown
-         else if(Selected==selected1)
-         {
-        Grades=ShowGrades(GetCourseID());
-        ui->listWidget_2->addItems(Grades);
-         }
-         //Individual student will show grades
-         else if(Selected==selected)
-         {
-             ShowStudentsGrades(GetStudentID(list[0]),GetCourseID());
-         }
+        selected=Titm->text();
+ Grades=  ShowGrades(GetCourseID());
+  ui->listWidget_2->addItems(Grades);
+    }
+
 
 }
 
@@ -522,45 +606,72 @@ void Teacher::on_listWidget_2_itemClicked(QListWidgetItem *item)
 
 void Teacher::on_listWidget_2_itemDoubleClicked(QListWidgetItem *item)
 {
+         if(ADDStudentbutton->isChecked())
+         {
+             QListWidgetItem *itm = ui->TeacherWidget->currentItem();
+             QString Selected = itm->text();
+             ui->listWidget_2->setEnabled(true);
 
-           QListWidgetItem *itm=ui->TeacherWidget->currentItem();
-            QString McourseName=itm->text();
-     QSqlQuery query;
-  QListWidgetItem *itm2=ui->listWidget_2->currentItem();
-   QString mstudent=itm2->text();
-      QStringList list= mstudent.split(QRegExp("\\s+"), QString::SkipEmptyParts);
-   if( QMessageBox::question(this,"Adding student","is this the student",QMessageBox::Yes,QMessageBox::No))
-   {
-       // Insert new student into class
-           query.prepare("INSERT INTO mydb.courses(idCourses,CourseName,StuFName,StuLName,idStudents,InstrFName,InstrLName,Instructors_idInstructors)"
-                     "VALUES(?,?,?,?,?,?,?,?)");
+             AddStudent(GetCourseID(),Selected);
+             RemoveGradebutton->setEnabled(true);
+             AddGradebutton->setEnabled(true);
+             Removestudentbutton->setEnabled(true);
+             Viewgradesbutton->setEnabled(true);
+
+         }
+         if(AddGradebutton->isChecked())
+         {
+              QListWidgetItem *itm = ui->listWidget_2->currentItem();
+             QString selected= itm->text();
+              QStringList list= selected.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+              QString id=GetCourseID();
+             AddGrade(GetStudentID(list[0]),id.toInt());
+             RemoveGradebutton->setEnabled(true);
+             Removestudentbutton->setEnabled(true);
+              ADDStudentbutton->setEnabled(true);
+             Viewgradesbutton->setEnabled(true);
+         }
+         if(RemoveGradebutton->isChecked())
+         {
+            QListWidgetItem *itm = ui->listWidget_2->currentItem();
+            QString selected= itm->text();
+            QStringList list=selected.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+            QString testScore=  QInputDialog::getText(this,"Tests","Enter test Score");
+           QString TestNum=  QInputDialog::getText(this,"Tests","Test Number");
+           DelGrade(GetCourseID(),list[0],TestNum,testScore);
+           Removestudentbutton->setEnabled(true);
+           AddGradebutton->setEnabled(true);
+
+            ADDStudentbutton->setEnabled(true);
+           Viewgradesbutton->setEnabled(true);
+         }
+         if(Viewgradesbutton->isChecked())
+         {
+             QListWidgetItem *itm = ui->listWidget_2->currentItem();
+             QString selected= itm->text();
+             QStringList list= selected.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+
+             ShowStudentsGrades(GetStudentID(list[0]),GetCourseID());
+             RemoveGradebutton->setEnabled(true);
+             AddGradebutton->setEnabled(true);
+             Removestudentbutton->setEnabled(true);
+             ADDStudentbutton->setEnabled(true);
+
+         }
+         if(Removestudentbutton->isChecked())
+         {
+             QListWidgetItem *itm = ui->listWidget_2->currentItem();
+             QString selected= itm->text();
+              QStringList list= selected.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+             RemoveStudent(GetCourseID(),list[0]);
+             RemoveGradebutton->setEnabled(true);
+             AddGradebutton->setEnabled(true);
+             ADDStudentbutton->setEnabled(true);
+             Viewgradesbutton->setEnabled(true);
+
+         }
 
 
-           query.bindValue(0,GetCourseID());
-           query.bindValue(1,McourseName);
-           query.bindValue(2,list[1]);
-           query.bindValue(3,list[2]);
-           query.bindValue(4,list[0]);
-           query.bindValue(5,this->FirstName);
-           query.bindValue(6,this->LastName);
-           query.bindValue(7,this->ID);
-           query.exec();
-           query.prepare("Insert into mydb.courses_has_students(Courses_idCourses,Students_idStudents)"
-                "VALUES(?,?)");
 
-           query.bindValue(0,this->ID);
-           query.bindValue(1,list[0]);
-            query.exec();
-           query.prepare("Insert into mydb.grades(Courses_has_Students_Courses_idCourses,Courses_has_Students_Students_idStudents)"
-                "VALUES(?,?)");
-           query.bindValue(0,this->ID);
-           query.bindValue(1,list[0]);
-           query.exec();
-           ui->listWidget_2->clear();
-   }
-   else
-   {
-    QMessageBox::information(this,"Error","Unable to add Student");
-   }
 
 }

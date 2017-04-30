@@ -25,6 +25,9 @@
     </property>
     <widget class="QWidget" name="page">
      <widget class="QListWidget" name="listWidget_2">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -46,6 +49,9 @@
       <property name="text">
        <string>AddStudent</string>
       </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QPushButton" name="RemoveStudent">
       <property name="geometry">
@@ -58,6 +64,9 @@
       </property>
       <property name="text">
        <string>RemoveStudent</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QPushButton" name="AddGrade">
@@ -72,6 +81,9 @@
       <property name="text">
        <string>AddGrade</string>
       </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QPushButton" name="RemoveGrade">
       <property name="geometry">
@@ -84,6 +96,9 @@
       </property>
       <property name="text">
        <string>RemoveGrade</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLabel" name="label_3">
@@ -110,6 +125,9 @@
       </property>
       <property name="text">
        <string>View Grades</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
       </property>
      </widget>
     </widget>
@@ -144,7 +162,7 @@
    <widget class="QListWidget" name="TeacherWidget">
     <property name="geometry">
      <rect>
-      <x>50</x>
+      <x>60</x>
       <y>70</y>
       <width>301</width>
       <height>121</height>

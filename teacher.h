@@ -6,6 +6,7 @@
 #include <QString>
 #include <QListWidgetItem>
 #include <QListWidget>
+#include <qpushbutton.h>
 namespace Ui {
 class Teacher;
 }
@@ -32,18 +33,25 @@ public:
     explicit Teacher(QWidget *parent = 0);
     ~Teacher();
 
-    void AddStudent(QString CourseID, QString CourseName, Teacher *teach);
+    void AddStudent(QString CourseID, QString CourseName);
     void RemoveStudent(QString CourseID, QString StudFname);
     void GetAllStudents();
     void DelGrade(QString CourseID, QString StudentID, QString TestNum, QString testScore);
     void AddGrade(QString StudentID,int CourseID);
     void ShowStudents(Teacher *Teach);
     void ShowStudentsGrades(QString StudentID, QString CourseID);
+    void showAstudentgrade(QString StudentID,QString CourseID);
     QString GetCourseID();
     QStringList ShowGrades(QString CourseID);
     void GetClasses(Teacher *Teach);
     QString FindStudent(int ID);
     QString GetStudentID(QString name);
+    QPushButton *ADDStudentbutton;
+    QPushButton *AddGradebutton;
+    QPushButton *Viewgradesbutton;
+   QPushButton *Removestudentbutton;
+   QPushButton *RemoveGradebutton;
+
 private slots:
     void on_pushButton_clicked();
 
