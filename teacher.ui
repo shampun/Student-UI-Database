@@ -38,6 +38,9 @@
       </property>
      </widget>
      <widget class="QPushButton" name="AddButton">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>80</x>
@@ -54,6 +57,9 @@
       </property>
      </widget>
      <widget class="QPushButton" name="RemoveStudent">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>200</x>
@@ -70,6 +76,9 @@
       </property>
      </widget>
      <widget class="QPushButton" name="AddGrade">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>340</x>
@@ -86,6 +95,9 @@
       </property>
      </widget>
      <widget class="QPushButton" name="RemoveGrade">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>500</x>
@@ -115,6 +127,9 @@
       </property>
      </widget>
      <widget class="QPushButton" name="viewGrades">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>500</x>

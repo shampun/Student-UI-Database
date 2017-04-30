@@ -36,7 +36,7 @@ public:
     void AddStudent(QString CourseID, QString CourseName);
     void RemoveStudent(QString CourseID, QString StudFname);
     void GetAllStudents();
-    void DelGrade(QString CourseID, QString StudentID, QString TestNum, QString testScore);
+    void DelGrade(QString CourseID, QString StudentID, QString TestNum);
     void AddGrade(QString StudentID,int CourseID);
     void ShowStudents(Teacher *Teach);
     void ShowStudentsGrades(QString StudentID, QString CourseID);
