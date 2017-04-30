@@ -26,8 +26,8 @@ void Loginwindow::on_LoginButton_clicked()
     //QString username = ui->LoginUserName->text();
     // QString   pwd = ui->LoginPassword->text();
 
-        QString  username = "lame";
-        QString  pwd = "city";
+        QString  username = "dcooper1";
+        QString  pwd = "dog";
         QSqlQuery query;
 
         if (query.exec("SELECT * FROM mydb.students"))
@@ -38,7 +38,7 @@ void Loginwindow::on_LoginButton_clicked()
                 {
 
                     this->hide();
-                   SIMS *s=new SIMS(query.value(0).toString(),query.value(1).toString(),query.value(2).toString());
+                   SIMS *s=new SIMS(query.value(0).toString(),query.value(1).toString(),query.value(2).toString(),query.value(5).toString);
                       s->show();
 
                         break;

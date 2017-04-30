@@ -22,7 +22,7 @@ class SIMS : public QMainWindow
 
 public:
     explicit SIMS(QWidget *parent = 0);
-      explicit SIMS(QString mID, QString mFirstName, QString mLastName, QWidget *parent = 0);
+      explicit SIMS(QString mID, QString mFirstName, QString mLastName, QString mGPA, QWidget *parent = 0);
     ~SIMS();
     QString GPA, usr, pwd, fname, lname, courseID, test1G, test2G, test3G, avg;
     QString id = "Not Available";
@@ -40,6 +40,8 @@ private slots:
 
 
     void on_listWidget_itemClicked( QListWidgetItem *item);
+
+    void on_StudLoginBtn_clicked();
 
 private:
     Ui::SIMS *ui;

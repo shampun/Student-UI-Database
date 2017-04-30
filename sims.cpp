@@ -21,7 +21,7 @@ SIMS::SIMS(QWidget *parent) :
     ui->setupUi(this);
 
 }
-SIMS::SIMS(QString mID, QString mFirstName, QString mLastName, QWidget *parent):
+SIMS::SIMS(QString mID, QString mFirstName, QString mLastName, QString mGPA, QWidget *parent):
     QMainWindow(parent),
     ui(new Ui::SIMS)
 {
@@ -39,10 +39,11 @@ SIMS::SIMS(QString mID, QString mFirstName, QString mLastName, QWidget *parent):
         ui->listWidget->addItem(query.value(1).toString());
           }
     }
+
     id=mID;
     fname=mFirstName;
     lname=mLastName;
-
+    GPA=mGPA;
     //Add startup code
 
 
@@ -149,4 +150,9 @@ void SIMS::on_listWidget_itemClicked(QListWidgetItem *item)
 
         }
     }
+}
+
+void SIMS::on_StudLoginBtn_clicked()
+{
+
 }
