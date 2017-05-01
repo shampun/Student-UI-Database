@@ -691,7 +691,7 @@ void Teacher::on_listWidget_2_itemDoubleClicked(QListWidgetItem *item)
              QListWidgetItem *itm = ui->listWidget_2->currentItem();
              QString selected= itm->text();
               QStringList list= selected.split(QRegExp("\\s+"), QString::SkipEmptyParts);
-             RemoveStudent(GetCourseID(),list[0]);
+             RemoveStudent(GetCourseID(),GetStudentID(list[0]));
              RemoveGradebutton->setEnabled(true);
              AddGradebutton->setEnabled(true);
              ADDStudentbutton->setEnabled(true);
