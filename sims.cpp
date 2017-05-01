@@ -55,7 +55,6 @@ delete ui;
 }
 void SIMS::on_pushButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(0);
     ui->listWidget->clear();
     ui->ProfessorName->setText("Select a course.");
     ui->AverageGrade->setText("N/A");
@@ -64,6 +63,8 @@ void SIMS::on_pushButton_clicked()
     ui->Test2Grade->setText("N/A");
     ui->Test3Grade->setText("N/A");
     GPA = "Not Available";
+    Log->show();
+    close();
 }
 
 void SIMS::on_InfoBackButn_clicked()

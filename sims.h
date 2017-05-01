@@ -26,6 +26,7 @@ public:
     ~SIMS();
     QString GPA, usr, pwd, fname, lname, courseID, test1G, test2G, test3G, avg;
     QString id = "Not Available";
+   Loginwindow *Log= new Loginwindow;
 
     void getClass();
 
