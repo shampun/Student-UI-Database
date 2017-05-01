@@ -8,6 +8,10 @@
 #include <QListWidget>
 #include <qpushbutton.h>
 #include <loginwindow.h>
+
+using namespace std;
+
+
 namespace Ui {
 class Teacher;
 }
@@ -20,6 +24,8 @@ public:
     QString ID;
     QString FirstName;
     QString LastName;
+    Loginwindow *Login=new Loginwindow;
+
 
 
    explicit Teacher(QString mID,QString mFirstName,QString mLastName,QWidget *parent = 0);
@@ -52,6 +58,8 @@ public:
     QPushButton *Viewgradesbutton;
    QPushButton *Removestudentbutton;
    QPushButton *RemoveGradebutton;
+
+
 
 
 private slots:

@@ -7,8 +7,7 @@
 #include <Qtsql/QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlDriver>
-
-
+using namespace std;
 
 Loginwindow::Loginwindow(QWidget *parent) :
     QMainWindow(parent),
@@ -23,12 +22,12 @@ Loginwindow::~Loginwindow()
 }
 void Loginwindow::on_LoginButton_clicked()
 {
-    //QString username = ui->LoginUserName->text();
-    // QString   pwd = ui->LoginPassword->text();
+    QString username = ui->LoginUserName->text();
+    QString   pwd = ui->LoginPassword->text();
 
-        QString  username = "lame";
-        QString  pwd = "city";
-        QSqlQuery query;
+//    QString  username = "lame";
+//    QString  pwd = "city";
+    QSqlQuery query;
 
         if (query.exec("SELECT * FROM mydb.students"))
         {

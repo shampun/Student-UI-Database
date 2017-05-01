@@ -15,7 +15,7 @@ QStringList Classes;
 QList<Student*> students;
 QList<Student*> Allstudents;
 QString Selected="";
-Loginwindow *L;
+
 
 Teacher::Teacher(QWidget *parent) :
     QMainWindow(parent),
@@ -34,7 +34,7 @@ Teacher::Teacher(QString mID, QString mFirstName, QString mLastName, QWidget *pa
     FirstName=mFirstName;
     LastName=mLastName;
     GetClasses(this);
-    L=new Loginwindow(parent);
+   // L=new Loginwindow(parent);
   ADDStudentbutton=ui->AddButton;
    AddGradebutton=ui->AddGrade;
    Viewgradesbutton=ui->viewGrades;
@@ -143,9 +143,7 @@ void Teacher::AddGrade(QString StudentID, int CourseID)
 void Teacher::DelGrade(QString CourseID, QString StudentID,QString TestNum)
 {
     QSqlQuery query;
-    int zero=0;
-    qDebug()<<StudentID;
-    qDebug()<<CourseID;
+
     if(TestNum=="1")
     {
         query.exec("UPDATE `mydb`.`grades` SET `Test1`='0' WHERE `Courses_has_Students_Courses_idCourses`='"+CourseID+"' and`Courses_has_Students_Students_idStudents`='"+StudentID+"'");
@@ -709,9 +707,8 @@ void Teacher::on_listWidget_2_itemDoubleClicked(QListWidgetItem *item)
 void Teacher::on_Logoutbutton_clicked()
 {
     ui->TeacherWidget->clear();
-    close();
     this->hide();
-    L->show();
- ui->TeacherWidget->clear();
 
+    Login->show();
+  delete ui;
 }
