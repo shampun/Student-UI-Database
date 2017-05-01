@@ -7,6 +7,7 @@
 #include <QListWidgetItem>
 #include <QListWidget>
 #include <qpushbutton.h>
+#include <loginwindow.h>
 namespace Ui {
 class Teacher;
 }
@@ -52,6 +53,7 @@ public:
    QPushButton *Removestudentbutton;
    QPushButton *RemoveGradebutton;
 
+
 private slots:
     void on_pushButton_clicked();
 
@@ -72,6 +74,8 @@ private slots:
     void on_listWidget_2_itemClicked(QListWidgetItem *item);
 
     void on_listWidget_2_itemDoubleClicked(QListWidgetItem *item);
+
+    void on_Logoutbutton_clicked();
 
 private:
  Ui::Teacher *ui;

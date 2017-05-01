@@ -13,7 +13,6 @@ class Loginwindow : public QMainWindow
 
 public:
     QString static mID,mFirstName,mLastName;
-  Teacher *mteach;
 
     explicit Loginwindow(QWidget *parent = 0);
     ~Loginwindow();

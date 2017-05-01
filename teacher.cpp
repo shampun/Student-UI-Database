@@ -9,34 +9,38 @@
 #include<qstring.h>
 #include <QListWidgetItem>
 #include <QListWidget>
+#include <loginwindow.h>
 
 QStringList Classes;
 QList<Student*> students;
 QList<Student*> Allstudents;
 QString Selected="";
+Loginwindow *L;
 
 Teacher::Teacher(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Teacher)
 {
     ui->setupUi(this);
-
+ui->TeacherWidget->clear();
 }
 Teacher::Teacher(QString mID, QString mFirstName, QString mLastName, QWidget *parent):
     QMainWindow(parent),
     ui(new Ui::Teacher)
 {
     ui->setupUi(this);
+    ui->TeacherWidget->clear();
     ID=mID;
     FirstName=mFirstName;
     LastName=mLastName;
     GetClasses(this);
-
+    L=new Loginwindow(parent);
   ADDStudentbutton=ui->AddButton;
    AddGradebutton=ui->AddGrade;
    Viewgradesbutton=ui->viewGrades;
  Removestudentbutton=ui->RemoveStudent;
  RemoveGradebutton=ui->RemoveGrade;
+ ui->TeachNameLbll->setText(this->FirstName+" "+this->LastName);
 
 }
 
@@ -147,30 +151,15 @@ void Teacher::DelGrade(QString CourseID, QString StudentID,QString TestNum)
         query.exec("UPDATE `mydb`.`grades` SET `Test1`='0' WHERE `Courses_has_Students_Courses_idCourses`='"+CourseID+"' and`Courses_has_Students_Students_idStudents`='"+StudentID+"'");
 
     }
-
-
-    if(TestNum=="2")
-    {
-      query.prepare("update grades set Test2=?, Where Courses_has_Students_Courses_idCourses=? and Courses_has_Students_Students_idStudents=?");
-      if(query.isValid())
-      {
-            query.bindValue(0,NULL);
-            query.bindValue(1,CourseID);
-            query.bindValue(2,StudentID);
-             query.exec();
-                }
+        if(TestNum=="2")
+        {
+       query.exec("UPDATE `mydb`.`grades` SET `Test2`='0' WHERE `Courses_has_Students_Courses_idCourses`='"+CourseID+"' and`Courses_has_Students_Students_idStudents`='"+StudentID+"'");
      }
 
     if(TestNum=="3")
     {
-     query.prepare("update mydb.grades set Test3=? Where Courses_has_Students_Courses_idCourses=? and Courses_has_Students_Students_idStudents=?");
-     if(query.isValid())
-     {
-     query.bindValue(0,NULL);
-           query.bindValue(1,CourseID.toInt());
-           query.bindValue(2,StudentID.toInt());
-            query.exec();
-      }
+        query.exec("UPDATE `mydb`.`grades` SET `Test3`='0' WHERE `Courses_has_Students_Courses_idCourses`='"+CourseID+"' and`Courses_has_Students_Students_idStudents`='"+StudentID+"'");
+
     }
 
 
@@ -258,9 +247,9 @@ if( QMessageBox::question(this,"Adding student","is this the student",QMessageBo
          "VALUES(?,?,?,?,?)");
     query.bindValue(0,this->ID);
     query.bindValue(1,GetStudentID(list[0]));
-    query.bindValue(2,"0");
-    query.bindValue(3,"0");
-    query.bindValue(4,"0");
+    query.bindValue(2,NULL);
+    query.bindValue(3,NULL);
+    query.bindValue(4,NULL);
     query.exec();
     ui->listWidget_2->clear();
      ui->listWidget_2->setEnabled(false);
@@ -376,7 +365,7 @@ void Teacher::ShowStudents(Teacher *Teach)
 void Teacher::GetClasses(Teacher *Teach)
 {
     QString line,line2;
-
+    ui->listWidget_2->clear();
     QSqlQuery query;
     if (query.exec("SELECT * FROM mydb.courses"))
     {
@@ -399,7 +388,9 @@ void Teacher::GetClasses(Teacher *Teach)
       }
 
     }
+
      ui->TeacherWidget->addItems(Classes);
+
      if (ui->listWidget_2->count() > 0)
              {
           ui->listWidget_2->item(0)->setSelected(true);
@@ -712,5 +703,15 @@ void Teacher::on_listWidget_2_itemDoubleClicked(QListWidgetItem *item)
 
 
 
+
+}
+
+void Teacher::on_Logoutbutton_clicked()
+{
+    ui->TeacherWidget->clear();
+    close();
+    this->hide();
+    L->show();
+ ui->TeacherWidget->clear();
 
 }
