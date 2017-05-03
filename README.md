@@ -2,9 +2,12 @@
             query.exec("UPDATE `mydb`.`grades` SET `Test2`='0' WHERE `Courses_has_Students_Courses_idCourses`='"+CourseID+"' and`Courses_has_Students_Students_idStudents`='"+StudentID+"'");
 
 The goal of this project is to create a program that acts with three users: Admin, Teacher, and student.
+
 To configure ODBC, go to the main.cpp, line 21, and use the MySQL ODBC 5.3 Unicode Driver, 
 be sure to set the SERVER to 'your server name', Uid should be set to 'your user id' for your local mysql server, 
 and Password= 'your password'.
+
+The database is in the file studinfoDBversion4. The data is in the DUMP file.
 ADMIN ACTIONS
 ------------------------------------------------------------------------------------------------------------------------------------------
 +ADDGrade(int)
